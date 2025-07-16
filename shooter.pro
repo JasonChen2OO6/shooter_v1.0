@@ -26,11 +26,25 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         widget.cpp \
-    title.cpp
+    title.cpp \
+    game.cpp \
+    pause.cpp \
+    over.cpp \
+    player.cpp \
+    enemy.cpp \
+    enemybullet.cpp \
+    playerbullet.cpp
 
 HEADERS += \
         widget.h \
-    title.h
+    title.h \
+    game.h \
+    pause.h \
+    over.h \
+    player.h \
+    enemy.h \
+    enemybullet.h \
+    playerbullet.h
 
 FORMS += \
         widget.ui
