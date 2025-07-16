@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <vector>
+#include <QKeyEvent>
 
 #include "enemy.h"
 #include "player.h"
@@ -13,16 +14,19 @@ class Game
 public:
     Game();
 
-    void draw();
+    void draw(QPainter &painter);
     void update();
+
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
 
     ~Game();
 
 private:
     Player *player;
-    vector<Enemy> enemyArray;
-    vector<EnemyBullet> enemyBulletArray;
-    vector<PlayerBullet> playerBulletArray;
+    std::vector<Enemy> enemyArray;
+    std::vector<PlayerBullet> playerBulletArray;
+    std::vector<EnemyBullet> enemyBulletArray;
 
     bool checkCollision();
 

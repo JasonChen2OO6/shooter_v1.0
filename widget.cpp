@@ -27,6 +27,7 @@ Widget::~Widget()
 
 void Widget::timerEvent(QTimerEvent *event) {
     update();
+    game->update();
 }
 
 void Widget::paintEvent(QPaintEvent *event) {
@@ -35,8 +36,9 @@ void Widget::paintEvent(QPaintEvent *event) {
         case 0:
             title->draw(painter);
             break;
-//    case 1:
-//            game->draw(painter);
+        case 1:
+            game->draw(painter);
+            break;
     }
 }
 
@@ -45,13 +47,21 @@ void Widget::keyPressEvent(QKeyEvent *event) {
         case 0:
             title->keyPressEvent(event);
             break;
-//        case 1:
-//            game->draw(painter);
+        case 1:
+            game->keyPressEvent(event);
+            break;
     }
 }
 
 void Widget::keyReleaseEvent(QKeyEvent *event) {
-
+    switch (status) {
+        case 0:
+            title->keyReleaseEvent(event);
+            break;
+        case 1:
+            game->keyReleaseEvent(event);
+            break;
+    }
 }
 
 int Widget::status = 0;

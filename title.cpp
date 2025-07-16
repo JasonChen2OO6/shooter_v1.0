@@ -1,4 +1,5 @@
 #include "title.h"
+#include "widget.h"
 
 Title::Title()
 {
@@ -19,5 +20,11 @@ void Title::keyPressEvent(QKeyEvent *event)
     int keyCode = event->key();
     if (keyCode == Qt::Key_Space){
           qDebug() << keyCode;
+          Widget::status = 1;
     }
+}
+
+void Title::keyReleaseEvent(QKeyEvent *event)
+{
+
 }

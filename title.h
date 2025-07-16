@@ -18,6 +18,7 @@ public:
 
     // 处理键盘事件的函数
     void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
 };
 
 #endif // TITLE_H

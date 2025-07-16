@@ -8,8 +8,9 @@ PlayerBullet::PlayerBullet(QPointF _position, float _angle, float _velocity, int
 
 }
 
-void PlayerBullet::draw(QPainter) {
-
+void PlayerBullet::draw(QPainter &painter) {
+    painter.setPen(Qt::red);
+    painter.drawEllipse(position.x() - 3, position.y() - 3, 6, 6);
 }
 
 void PlayerBullet::update() {

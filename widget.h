@@ -29,7 +29,7 @@ public:
     Game *game = nullptr;
     Over *over = nullptr;
     Pause *pause = nullptr;
-    static int status;
+    static int status;  // 0 title 1 game 2 over 3 pause
 
 
 private:
