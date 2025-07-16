@@ -7,8 +7,7 @@
 
 #include "config.h"
 
-class PlayerBullet
-{
+class PlayerBullet {
 public:
     PlayerBullet(QPointF _position, float _angle, float _velocity, int _attack);
 
@@ -22,7 +21,6 @@ private:
 
     float velocity;
     int attack;
-
 };
 
 #endif // PLAYERBULLET_H

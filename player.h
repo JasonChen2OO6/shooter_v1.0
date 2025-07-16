@@ -12,8 +12,7 @@
 #include "playerbullet.h"
 
 
-class Player
-{
+class Player {
 public:
     Player();
 

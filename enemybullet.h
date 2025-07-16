@@ -1,11 +1,26 @@
 #ifndef ENEMYBULLET_H
 #define ENEMYBULLET_H
 
+#include <QPointF>
+#include <QPainter>
+#include <cmath>
 
-class EnemyBullet
-{
+#include "config.h"
+
+class EnemyBullet {
 public:
-    EnemyBullet();
+    EnemyBullet(QPointF _position, float _angle, float _velocity, int _attack);
+
+    void draw(QPainter &painter);
+    void update();
+    bool isInScreen();
+
+private:
+    QPointF position;
+    float angle;
+
+    float velocity;
+    int attack;
 };
 
 #endif // ENEMYBULLET_H

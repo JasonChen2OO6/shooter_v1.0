@@ -9,8 +9,7 @@
 #include "enemybullet.h"
 #include "playerbullet.h"
 
-class Game
-{
+class Game {
 public:
     Game();
 

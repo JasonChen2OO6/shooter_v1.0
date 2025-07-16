@@ -5,11 +5,10 @@ PlayerBullet::PlayerBullet(QPointF _position, float _angle, float _velocity, int
     angle = _angle;
     velocity = _velocity;
     attack = _attack;
-
 }
 
 void PlayerBullet::draw(QPainter &painter) {
-    painter.setPen(Qt::red);
+    painter.setPen(Qt::black);
     painter.drawEllipse(position.x() - 3, position.y() - 3, 6, 6);
 }
 

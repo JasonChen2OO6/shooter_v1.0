@@ -38,6 +38,8 @@ void Player::update() {
     position.rx() = std::max(position.x(), qreal(PLY_SIZE / 2));
     position.ry() = std::min(position.y(), qreal(WIN_H - PLY_SIZE / 2));
     position.ry() = std::max(position.y(), qreal(PLY_SIZE / 2));
+
+    // lastShoot++;
 }
 
 std::vector<PlayerBullet> Player::shoot() {

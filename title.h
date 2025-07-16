@@ -7,16 +7,12 @@
 
 #include "config.h"
 
-
-class Title
-{
+class Title {
 public:
     Title();
 
-    // 处理画笔的函数
     void draw(QPainter &painter);
 
-    // 处理键盘事件的函数
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 };
