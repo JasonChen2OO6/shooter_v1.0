@@ -44,7 +44,8 @@ HEADERS += \
     player.h \
     enemy.h \
     enemybullet.h \
-    playerbullet.h
+    playerbullet.h \
+    config.h
 
 FORMS += \
         widget.ui
