@@ -26,8 +26,6 @@ private:
 
     float velocity;
     int health;
-    int experience;
-    int level;
 
     int interval;
     int lastShoot;

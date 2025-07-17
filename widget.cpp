@@ -108,3 +108,4 @@ void Widget::mouseMoveEvent(QMouseEvent *event)
 }
 
 int Widget::status = 0;
+int Widget::levelUp = 0;

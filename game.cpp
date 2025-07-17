@@ -38,14 +38,15 @@ void Game::keyPressEvent(QKeyEvent *event) {
     player->keyPressEvent(event);
 
     int keyCode = event->key();
-    if (keyCode == Qt::Key_P){
+    if (keyCode == Qt::Key_Escape){
           qDebug() << keyCode;
           Widget::status = 3;
           player->reset();
     }
-    if (keyCode == Qt::Key_Escape){
+
+    if (keyCode == Qt::Key_Space){
           qDebug() << keyCode;
-          Widget::status = 2;
+          player->ExpUp();
     }
 }
 

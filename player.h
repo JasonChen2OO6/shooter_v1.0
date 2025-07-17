@@ -19,6 +19,7 @@ public:
 
     void draw(QPainter &painter);
     void update();
+    void ExpUp();
     std::vector<PlayerBullet> shoot();
     QPointF getPosition();
 
