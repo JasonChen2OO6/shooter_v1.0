@@ -13,11 +13,19 @@ void Enemy::update() {
     position.rx() += cos(angle) * velocity;
     position.ry() += sin(angle) * velocity;
 
-    // lastShoot++;
+    lastShoot++;
 }
 
 std::vector<EnemyBullet> Enemy::shoot() {
+    std::vector<EnemyBullet> shootBulletArray;
+    shootBulletArray.clear();
 
+    if (lastShoot >= interval) {
+        shootBulletArray.push_back(EnemyBullet(position, angle, BLT_SPEED, attack));
+        lastShoot = 0;
+    }
+
+    return shootBulletArray;
 }
 
 QPointF Enemy::getPosition() {

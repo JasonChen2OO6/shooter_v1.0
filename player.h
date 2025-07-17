@@ -6,6 +6,7 @@
 #include <QPointF>
 #include <QPainter>
 #include <QKeyEvent>
+#include <QMouseEvent>
 #include <cmath>
 
 #include "config.h"
@@ -23,12 +24,19 @@ public:
 
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+
+    void reset();
 
 private:
     QPointF position;
     float dx, dy;
     bool up, down, left, right;
     float angle;
+
+    bool canShoot;
 
     float velocity;
     int health;

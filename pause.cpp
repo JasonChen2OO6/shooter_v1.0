@@ -20,6 +20,10 @@ void Pause::keyPressEvent(QKeyEvent *event) {
           qDebug() << keyCode;
           Widget::status = 1;
     }
+    if (keyCode == Qt::Key_Escape){
+          qDebug() << keyCode;
+          Widget::status = 2;
+    }
 }
 
 void Pause::keyReleaseEvent(QKeyEvent *event) {

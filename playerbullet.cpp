@@ -9,12 +9,12 @@ PlayerBullet::PlayerBullet(QPointF _position, float _angle, float _velocity, int
 
 void PlayerBullet::draw(QPainter &painter) {
     painter.setPen(Qt::black);
-    painter.drawEllipse(position.x() - 3, position.y() - 3, 6, 6);
+    painter.drawEllipse(position.x() - BLT_SIZE / 2, position.y() - BLT_SIZE / 2, BLT_SIZE, BLT_SIZE);
 }
 
 void PlayerBullet::update() {
     position.rx() += velocity * cos(angle);
-    position.ry() += velocity * sin(angle);
+    position.ry() += velocity * sin(angle);   
 }
 
 bool PlayerBullet::isInScreen() {

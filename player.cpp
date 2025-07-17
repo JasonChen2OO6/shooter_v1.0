@@ -4,11 +4,18 @@ Player::Player() {
     position = *new QPointF(WIN_W / 2, WIN_H / 2);
     angle = 0;
     velocity = 0.2;
+    dx = 0;
+    dy = 0;
+    up = 0;
+    down = 0;
+    left = 0;
+    right = 0;
+    canShoot = false;
     health = 10;
     experience = 0;
     level = 0;
-    interval = 200;
-    lastShoot = 0;
+    interval = 100;
+    lastShoot = 100;
     attack = 1;
 }
 
@@ -39,11 +46,19 @@ void Player::update() {
     position.ry() = std::min(position.y(), qreal(WIN_H - PLY_SIZE / 2));
     position.ry() = std::max(position.y(), qreal(PLY_SIZE / 2));
 
-    // lastShoot++;
+    lastShoot++;
 }
 
 std::vector<PlayerBullet> Player::shoot() {
+    std::vector<PlayerBullet> shootBulletArray;
+    shootBulletArray.clear();
 
+    if (canShoot && lastShoot >= interval) {
+        shootBulletArray.push_back(PlayerBullet(position, angle, BLT_SPEED, attack));
+        lastShoot = 0;
+    }
+
+    return shootBulletArray;
 }
 
 QPointF Player::getPosition() {
@@ -82,5 +97,30 @@ void Player::keyReleaseEvent(QKeyEvent *event) {
             right = false;
             break;
     }
+}
+
+void Player::mousePressEvent(QMouseEvent *event) {
+    if (event->button() == Qt::LeftButton) {
+        canShoot = true;
+        qDebug() << "shoot";
+    }
+}
+
+void Player::mouseReleaseEvent(QMouseEvent *event) {
+    if (event->button() == Qt::LeftButton) {
+        canShoot = false;
+    }
+}
+
+void Player::mouseMoveEvent(QMouseEvent *event)
+{
+    angle = atan2(float(event->y() - position.y()), float(event->x() - position.x()));
+}
+
+void Player::reset() {
+    up = 0;
+    down = 0;
+    left = 0;
+    right = 0;
 }
 

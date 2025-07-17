@@ -17,7 +17,9 @@ Widget::Widget(QWidget *parent) :
 
     startTimer(10);
 
+    setWindowTitle("SHOOTER!");
     setFixedSize(WIN_W, WIN_H);
+    setMouseTracking(true);
 }
 
 Widget::~Widget()
@@ -81,6 +83,27 @@ void Widget::keyReleaseEvent(QKeyEvent *event) {
         case 3:
             pause->keyPressEvent(event);
             break;
+    }
+}
+
+void Widget::mousePressEvent(QMouseEvent *event)
+{
+    if (status == 1) {
+        game->mousePressEvent(event);
+    }
+}
+
+void Widget::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (status == 1) {
+        game->mouseReleaseEvent(event);
+    }
+}
+
+void Widget::mouseMoveEvent(QMouseEvent *event)
+{
+    if (status == 1) {
+        game->mouseMoveEvent(event);
     }
 }
 
