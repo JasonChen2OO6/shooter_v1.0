@@ -23,15 +23,20 @@ public:
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
 
+    int getExperience();
+
     ~Game();
 
 private:
-    Player *player;
-    std::vector<Enemy> enemyArray;
-    std::vector<PlayerBullet> playerBulletArray;
-    std::vector<EnemyBullet> enemyBulletArray;
+    int timer;
 
-    bool checkCollision();
+    Player *player;
+    std::vector<Enemy*> enemyArray;
+    std::vector<PlayerBullet*> playerBulletArray;
+    std::vector<EnemyBullet*> enemyBulletArray;
+
+    bool checkCollision(Player *player, Enemy *enemy);
+    bool checkCollision(PlayerBullet *playerBullet, Enemy *enemy);
 
 };
 

@@ -20,3 +20,11 @@ void PlayerBullet::update() {
 bool PlayerBullet::isInScreen() {
     return position.x() >= 0 && position.x() <= WIN_W && position.y() >= 0 && position.y() <= WIN_H;
 }
+
+QPointF PlayerBullet::getPosition() {
+    return position;
+}
+
+int PlayerBullet::getAttack() {
+    return attack;
+}

@@ -70,20 +70,24 @@ void Player::update() {
     lastShoot++;
 }
 
-void Player::ExpUp() {
-    experience += 10;
-}
-
-std::vector<PlayerBullet> Player::shoot() {
-    std::vector<PlayerBullet> shootBulletArray;
+std::vector<PlayerBullet*> Player::shoot() {
+    std::vector<PlayerBullet*> shootBulletArray;
     shootBulletArray.clear();
 
     if (canShoot && lastShoot >= interval) {
-        shootBulletArray.push_back(PlayerBullet(position, angle, BLT_SPEED, attack));
+        shootBulletArray.push_back(new PlayerBullet(position, angle, BLT_SPEED, attack));
         lastShoot = 0;
     }
 
     return shootBulletArray;
+}
+
+void Player::addExperience(int _experience) {
+    experience += _experience;
+}
+
+int Player::getExperience() {
+    return experience;
 }
 
 QPointF Player::getPosition() {
@@ -137,9 +141,16 @@ void Player::mouseReleaseEvent(QMouseEvent *event) {
     }
 }
 
-void Player::mouseMoveEvent(QMouseEvent *event)
-{
+void Player::mouseMoveEvent(QMouseEvent *event) {
     angle = atan2(float(event->y() - position.y()), float(event->x() - position.x()));
+}
+
+bool Player::isAlive() {
+    return health > 0;
+}
+
+void Player::hurt(int attack) {
+    health -= attack;
 }
 
 void Player::reset() {

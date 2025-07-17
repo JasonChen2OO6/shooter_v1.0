@@ -15,6 +15,9 @@ public:
     void update();
     bool isInScreen();
 
+    QPointF getPosition();
+    int getAttack();
+
 private:
     QPointF position;
     float angle;
