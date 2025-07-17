@@ -1,11 +1,29 @@
 #ifndef PLAYERBULLET_H
 #define PLAYERBULLET_H
 
+#include <QPointF>
+#include <QPainter>
+#include <cmath>
 
-class PlayerBullet
-{
+#include "config.h"
+
+class PlayerBullet {
 public:
-    PlayerBullet();
+    PlayerBullet(QPointF _position, float _angle, float _velocity, int _attack);
+
+    void draw(QPainter &painter);
+    void update();
+    bool isInScreen();
+
+    QPointF getPosition();
+    int getAttack();
+
+private:
+    QPointF position;
+    float angle;
+
+    float velocity;
+    int attack;
 };
 
 #endif // PLAYERBULLET_H
