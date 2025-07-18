@@ -13,25 +13,27 @@
 
 class Enemy {
 public:
-    Enemy(QPointF _position, float _angle,  float _mass, float _velocity,
+    Enemy(int _size, QPointF _position, float _angle,  float _mass, float _velocity,
           int health, int _interval, int _attack, int _experience);
 
     virtual void draw(QPainter &painter) = 0;
-    virtual void update(QPointF playPosition) = 0;
-    virtual std::vector<EnemyBullet*> shoot(QPointF playPosition) = 0;
+    virtual void update(QPointF playerPosition) = 0;
+    virtual std::vector<EnemyBullet*> shoot(QPointF playerPosition) = 0;
 
     QPointF getPosition();
     int getExperience();
     int getAttack();
+    int getSize();
 
     void repel(QPointF playerPosition, int repelForce);
     void repulse(QPointF enemyPosition);
-    bool isAlive();
+    virtual bool isAlive();
     void hurt(int attack, bool isRetard);
 
     virtual ~Enemy();
 
 protected:
+    int size;
     QPointF position;
     float angle;
 
@@ -97,6 +99,52 @@ public:
     virtual ~EliteEnemy01();
 private:
     int interval;
+};
+
+class Boss01 : public Enemy {
+public:
+    Boss01(QPointF _position);
+
+    virtual void update(QPointF playerPosition);
+    virtual void draw(QPainter &painter);
+    virtual std::vector<EnemyBullet*> shoot(QPointF playerPosition);
+
+    ~Boss01();
+private:
+    int interval;
+    int moveInterval;
+};
+
+class SubEnemy : public Enemy {
+public:
+    SubEnemy(QPointF position, float angle);
+
+    void update(QPointF playerPosition);
+    void draw(QPainter &painter);
+    std::vector<EnemyBullet*> shoot(QPointF playerPosition);
+
+    bool isAlive();
+
+    ~SubEnemy();
+
+private:
+    QPointF startPosition;
+    int interval;
+    int moveInterval;
+};
+
+class Boss02 : public Enemy {
+public:
+    Boss02(QPointF _position);
+
+    virtual void update(QPointF playerPosition);
+    virtual void draw(QPainter &painter);
+    virtual std::vector<EnemyBullet*> shoot(QPointF playerPosition);
+
+    ~Boss02();
+private:
+    int interval;
+    int moveInterval;
 };
 
 

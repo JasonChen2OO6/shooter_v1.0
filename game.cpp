@@ -6,6 +6,8 @@ Game::Game() {
 
     timer = 0;
 
+    boss02 = nullptr;
+
     player = new Player();
 
     pause = new Pause(player);
@@ -23,6 +25,8 @@ Game::Game() {
 void Game::draw(QPainter &painter) {
     if (status == 0) {
         player->draw(painter);
+
+        if (boss02 != nullptr) boss02->draw(painter);
 
         for (auto bullet : playerBulletArray) {
             bullet->draw(painter);
@@ -144,6 +148,17 @@ void Game::playerShoot()
 }
 
 void Game::generateEnemy() {
+//    float angle = (rand() % 360) / 180.0 * M_PI;
+//    boss02 = new Boss02(QPointF(player->getPosition().x() + WIN_W * cos(angle) * 0.2, player->getPosition().y() + WIN_W * sin(angle) * 0.2));
+//    if (timer % BOSS02_MI == 0) {
+//        for (int i = 0; i < 12; i++) {
+//            enemyArray.push_back(new SubEnemy(boss02->getPosition(), M_PI * 2 / 12 * i));
+//        }
+//    }
+    if (timer == 3000) {
+        float angle = (rand() % 360) / 180.0 * M_PI;
+        enemyArray.push_back(new Boss01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
+    }
     if (timer % 200 == 0) {
         float angle = (rand() % 360) / 180.0 * M_PI;
         enemyArray.push_back(new Enemy01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
@@ -168,6 +183,7 @@ void Game::generateEnemy() {
 
 void Game::enemyRepulse() {
     for (auto enemy : enemyArray) {
+        if (boss02 != nullptr) enemy->repulse(boss02->getPosition());
         for (auto _enemy : enemyArray) {
             if (enemy == _enemy) continue;
             enemy->repulse(_enemy->getPosition());
@@ -181,7 +197,7 @@ void Game::enemyShoot() {
         auto newBulletArray = enemy->shoot(player->getPosition());
         enemyBulletArray.insert(enemyBulletArray.end(), newBulletArray.begin(), newBulletArray.end());
     }
-
+    if (boss02 == nullptr) return;
 }
 
 void Game::checkCollision() {
@@ -194,7 +210,7 @@ void Game::checkCollision() {
                 if (!(*it)->checkEnemy(enemy)) {
                     if (player->getCanSplash()) {
                         for (auto _enemy : enemyArray) {
-                            if (dist(_enemy, enemy) < SPLSH_RG + ENM_SIZE) {
+                            if (dist(_enemy, enemy) < SPLSH_RG + enemy->getSize()) {
                                 explosionArray.push_back(new Explosion(_enemy->getPosition(), 4, (*it)->getAttack() * 5));
                                 _enemy->hurt((*it)->getAttack(), player->getCanRetard());
                                 _enemy->repel(player->getPosition(), repelForces[player->getRepelForce()] * 15);
@@ -304,13 +320,12 @@ void Game::deleteOutScreenBullet() {
 
 
 bool Game::checkCollision(Player *player, Enemy *enemy) {
-    return dist(player, enemy) < PLY_SIZE / 2 + ENM_SIZE / 2;
+    return dist(player, enemy) < PLY_SIZE / 2 + enemy->getSize() / 2;
 }
 
 
 bool Game::checkCollision(PlayerBullet *playerBullet, Enemy *enemy) {
-
-    return dist(playerBullet, enemy) < bulletSizes[player->getBulletSize()] / 2 + ENM_SIZE / 2;
+    return dist(playerBullet, enemy) < bulletSizes[player->getBulletSize()] / 2 + enemy->getSize() / 2;
 }
 
 bool Game::checkCollision(Player *player, EnemyBullet *enemyBullet) {

@@ -4,8 +4,8 @@ Particle::Particle(QPointF _position, QColor _color, int maxTransparency, int ma
     position = _position;
 //    color = _color;
     color = Qt::darkBlue;
-//    color.setAlpha(rand() % maxTransparency);
     float angle = (rand() % 360 / 180.0) * M_PI;
+    transparency = (rand() % maxTransparency);
     int force = rand() % maxForce;
     dx = force * cos(angle);
     dy = force * sin(angle);
