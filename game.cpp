@@ -35,6 +35,10 @@ void Game::draw(QPainter &painter) {
         for (auto bullet : enemyBulletArray) {
             bullet->draw(painter);
         }
+
+        for (auto explosion : explosionArray) {
+            explosion->draw(painter);
+        }
     } else {
         pause->draw(painter);
     }
@@ -140,7 +144,7 @@ void Game::playerShoot()
 }
 
 void Game::generateEnemy() {
-    if (timer % 100 == 0) {
+    if (timer % 200 == 0) {
         float angle = (rand() % 360) / 180.0 * M_PI;
         enemyArray.push_back(new Enemy01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
     }
@@ -187,9 +191,11 @@ void Game::checkCollision() {
             if (enemy->isAlive() && checkCollision(*it, enemy)) {
                 flag = true;
                 enemy->hurt((*it)->getAttack());
+                break;
             }
         }
         if (flag) {
+            explosionArray.push_back(new Explosion((*it)->getPosition(), 4, (*it)->getAttack() * 5));
             delete *it;
             it = playerBulletArray.erase(it);
         }
@@ -248,6 +254,7 @@ void Game::updateEverything() {
     for (auto bullet : playerBulletArray) bullet->update();
     for (auto bullet : enemyBulletArray) bullet->update();
     for (auto enemy : enemyArray) enemy->update(player->getPosition());
+    for (auto explosion : explosionArray) explosion->update();
 }
 
 void Game::deleteOutScreenBullet() {

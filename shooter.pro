@@ -33,7 +33,8 @@ SOURCES += \
     player.cpp \
     enemy.cpp \
     enemybullet.cpp \
-    playerbullet.cpp
+    playerbullet.cpp \
+    explosion.cpp
 
 HEADERS += \
         widget.h \
@@ -45,7 +46,8 @@ HEADERS += \
     enemy.h \
     enemybullet.h \
     playerbullet.h \
-    config.h
+    config.h \
+    explosion.h
 
 FORMS += \
         widget.ui
