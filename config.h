@@ -7,6 +7,7 @@
 #define PLY_SIZE 40
 #define ENM_SIZE 20
 #define BLT_SIZE 10
+#define PTC_SIZE 10
 
 #define EENM_SIZE 40
 

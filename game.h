@@ -10,6 +10,7 @@
 #include "player.h"
 #include "enemybullet.h"
 #include "playerbullet.h"
+#include "explosion.h"
 
 class Game {
 public:
@@ -40,6 +41,7 @@ private:
     std::vector<Enemy*> enemyArray;
     std::vector<PlayerBullet*> playerBulletArray;
     std::vector<EnemyBullet*> enemyBulletArray;
+    std::vector<Explosion*> explosionArray;
 
 
     void playerShoot();
