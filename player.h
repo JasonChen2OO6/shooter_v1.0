@@ -30,11 +30,13 @@ public:
     int getVelocity();
     int getAttack();
     int getBulletSize();
+    int getRepelForce();
 
     void addInterval();
     void addVelocity();
     void addAttack();
     void addBulletSize();
+    void addRepelForce();
 
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
@@ -69,6 +71,7 @@ private:
     int velocity;
     int attack;
     int bulletSize;
+    int repelForce;
 };
 
 #endif // PLAYER_H

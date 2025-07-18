@@ -191,6 +191,7 @@ void Game::checkCollision() {
             if (enemy->isAlive() && checkCollision(*it, enemy)) {
                 flag = true;
                 enemy->hurt((*it)->getAttack());
+                enemy->repel(player->getPosition(), repelForces[player->getRepelForce()] * 15);
                 break;
             }
         }
@@ -226,7 +227,7 @@ void Game::checkCollision() {
 
     if (flag) {
         for (auto enemy : enemyArray) {
-            enemy->repel(player->getPosition());
+            enemy->repel(player->getPosition(), repelForces[player->getRepelForce()]);
         }
         for (auto it = enemyBulletArray.begin(); it != enemyBulletArray.end();) {
             if (dist(player, *it) < ENMB_CLR_RG) {

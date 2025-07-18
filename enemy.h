@@ -24,7 +24,7 @@ public:
     int getExperience();
     int getAttack();
 
-    void repel(QPointF playerPosition);
+    void repel(QPointF playerPosition, int repelForce);
     void repulse(QPointF enemyPosition);
     bool isAlive();
     void hurt(int attack);

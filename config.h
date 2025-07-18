@@ -12,7 +12,6 @@
 #define EENM_SIZE 40
 
 #define ENM_RPS 1       // repulsion
-#define ENM_RPL 2000
 #define ENM_PRPS 10
 #define EENM_PRPS 30
 #define ENMB_CLR_RG 200 // enemy bullet clear range
@@ -58,5 +57,6 @@ const int attacks[6] = {0, 1, 2, 3, 4, 5};
 
 const int bulletSizes[6] = {0, 10, 15, 20, 25, 30};
 
+const int repelForces[6] = {0, 1000, 1500, 2000, 2500, 3000};
 
 #endif // CONFIG_H

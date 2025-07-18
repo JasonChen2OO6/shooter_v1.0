@@ -40,11 +40,11 @@ int Enemy::getAttack() {
     return attack;
 }
 
-void Enemy::repel(QPointF playerPosition) {
+void Enemy::repel(QPointF playerPosition, int repelForce) {
     QPointF vec = position - playerPosition;
     float r2 = (vec.x() * vec.x() + vec.y() * vec.y());
-    dx += ENM_RPL * vec.x() / r2 / mass;
-    dy += ENM_RPL * vec.y() / r2 / mass;
+    dx += repelForce * vec.x() / r2 / mass;
+    dy += repelForce * vec.y() / r2 / mass;
 }
 
 void Enemy::repulse(QPointF enemyPosition) {

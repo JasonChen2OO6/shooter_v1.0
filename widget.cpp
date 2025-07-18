@@ -65,6 +65,7 @@ void Widget::keyPressEvent(QKeyEvent *event) {
 }
 
 void Widget::keyReleaseEvent(QKeyEvent *event) {
+    if (event->isAutoRepeat()) return;
     switch (status) {
         case 0:
             title->keyReleaseEvent(event);

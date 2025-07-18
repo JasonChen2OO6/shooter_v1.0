@@ -24,22 +24,27 @@ void Pause::draw(QPainter &painter) {
         if (player->getInterval() >= 5) painter.setPen(Qt::gray);
         else if (pressCode == 1) painter.setPen(Qt::red);
         else painter.setPen(Qt::blue);
-        painter.drawText(WIN_W / 2 - 400, WIN_H / 2 + 50, 400, 50, Qt::AlignCenter, "1.ITV++");
+        painter.drawText(WIN_W / 2 - 300, WIN_H / 2 + 50, 300, 50, Qt::AlignCenter, "1.ITV++");
 
         if (player->getVelocity() >= 5) painter.setPen(Qt::gray);
         else if (pressCode == 2) painter.setPen(Qt::red);
         else painter.setPen(Qt::blue);
-        painter.drawText(WIN_W / 2, WIN_H / 2 + 50, 400, 50, Qt::AlignCenter, "2.VEL++");
+        painter.drawText(WIN_W / 2, WIN_H / 2 + 50, 300, 50, Qt::AlignCenter, "2.VEL++");
 
         if (player->getAttack() >= 5) painter.setPen(Qt::gray);
         else if (pressCode == 3) painter.setPen(Qt::red);
         else painter.setPen(Qt::blue);
-        painter.drawText(WIN_W / 2 - 400, WIN_H / 2 + 100, 400, 50, Qt::AlignCenter, "3.ATK++");
+        painter.drawText(WIN_W / 2 - 300, WIN_H / 2 + 100, 300, 50, Qt::AlignCenter, "3.ATK++");
 
         if (player->getBulletSize() >= 5) painter.setPen(Qt::gray);
         else if (pressCode == 4) painter.setPen(Qt::red);
         else painter.setPen(Qt::blue);
-        painter.drawText(WIN_W / 2, WIN_H / 2 + 100, 400, 50, Qt::AlignCenter, "4.BLTSIZE++");
+        painter.drawText(WIN_W / 2, WIN_H / 2 + 100, 300, 50, Qt::AlignCenter, "4.BLT_SIZE++");
+
+        if (player->getRepelForce() >= 5) painter.setPen(Qt::gray);
+        else if (pressCode == 5) painter.setPen(Qt::red);
+        else painter.setPen(Qt::blue);
+        painter.drawText(WIN_W / 2 - 300, WIN_H / 2 + 150, 300, 50, Qt::AlignCenter, "5.RPL_FRC++");
     }
 }
 
@@ -58,6 +63,9 @@ void Pause::keyPressEvent(QKeyEvent *event) {
                 break;
             case Qt::Key_4:
                 pressCode = 4;
+                break;
+            case Qt::Key_5:
+                pressCode = 5;
                 break;
         }
     }
@@ -91,6 +99,13 @@ void Pause::keyReleaseEvent(QKeyEvent *event) {
                 pressCode = 0;
                 if (player->getBulletSize() < 5) {
                     player->addBulletSize();
+                    Widget::levelUp--;
+                }
+                break;
+            case Qt::Key_5:
+                pressCode = 0;
+                if (player->getRepelForce() < 5) {
+                    player->addRepelForce();
                     Widget::levelUp--;
                 }
                 break;

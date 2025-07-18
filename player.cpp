@@ -24,11 +24,11 @@ Player::Player() {
 
     lastShoot = 100;
 
-
     interval = 1;
     velocity = 1;
     attack = 1;
     bulletSize = 1;
+    repelForce = 1;
 }
 
 void Player::draw(QPainter &painter) {
@@ -60,7 +60,8 @@ void Player::drawData(QPainter &painter) {
     painter.drawText(0, 120, WIN_W, 40, Qt::AlignLeft, "ITV: " + QString::number(interval));
     painter.drawText(0, 160, WIN_W, 40, Qt::AlignLeft, "VEL: " + QString::number(velocity));
     painter.drawText(0, 200, WIN_W, 40, Qt::AlignLeft, "ATK: " + QString::number(attack));
-    painter.drawText(0, 240, WIN_W, 40, Qt::AlignLeft, "BLTSIZE: " + QString::number(bulletSize));
+    painter.drawText(0, 240, WIN_W, 40, Qt::AlignLeft, "BLT_SIZE: " + QString::number(bulletSize));
+    painter.drawText(0, 280, WIN_W, 40, Qt::AlignLeft, "RPL_FRC: " + QString::number(repelForce));
 
     if (Widget::levelUp > 0) {
         painter.drawText(0, 0, WIN_W, 40, Qt::AlignRight, "LEVEL UP!");
@@ -142,6 +143,10 @@ int Player::getBulletSize() {
     return bulletSize;
 }
 
+int Player::getRepelForce() {
+    return repelForce;
+}
+
 void Player::addInterval() {
     interval++;
 }
@@ -156,6 +161,10 @@ void Player::addAttack() {
 
 void Player::addBulletSize() {
     bulletSize++;
+}
+
+void Player::addRepelForce() {
+    repelForce++;
 }
 
 void Player::keyPressEvent(QKeyEvent *event) {
