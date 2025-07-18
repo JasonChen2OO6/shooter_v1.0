@@ -68,7 +68,6 @@ Enemy::~Enemy() {
 
 Enemy01::Enemy01(QPointF _position) :
     Enemy(_position, 0, ENM01_M, ENM01_V, ENM01_H, 0, ENM01_A, ENM01_E) {
-
 }
 
 void Enemy01::draw(QPainter &painter) {

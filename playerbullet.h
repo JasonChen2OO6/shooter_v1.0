@@ -9,7 +9,7 @@
 
 class PlayerBullet {
 public:
-    PlayerBullet(QPointF _position, float _angle, float _velocity, int _attack);
+    PlayerBullet(QPointF _position, float _angle, float _velocity, int _attack, int _bulletSize);
 
     void draw(QPainter &painter);
     void update();
@@ -21,9 +21,10 @@ public:
 private:
     QPointF position;
     float angle;
-
     float velocity;
+
     int attack;
+    int bulletSize;
 };
 
 #endif // PLAYERBULLET_H

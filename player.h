@@ -18,12 +18,14 @@ public:
     Player();
 
     void draw(QPainter &painter);
+    void drawData(QPainter &painter);
     void update();
     std::vector<PlayerBullet*> shoot();
     void addExperience(int _experience);
 
     int getExperience();
     QPointF getPosition();
+    int getBulletSize();
 
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
@@ -44,14 +46,16 @@ private:
 
     bool canShoot;
 
-    float velocity;
     int health;
     int experience;
     int level;
 
-    int interval;
     int lastShoot;
+
+    int interval;
+    float velocity;
     int attack;
+    int bulletSize;
 };
 
 #endif // PLAYER_H

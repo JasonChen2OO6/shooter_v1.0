@@ -13,7 +13,6 @@ Widget::Widget(QWidget *parent) :
     title = new Title();
     game = new Game();
     over = new Over();
-    pause = new Pause();
 
     startTimer(10);
 
@@ -46,9 +45,6 @@ void Widget::paintEvent(QPaintEvent *event) {
         case 2:
             over->draw(painter);
             break;
-        case 3:
-            pause->draw(painter);
-            break;
     }
 }
 
@@ -59,12 +55,11 @@ void Widget::keyPressEvent(QKeyEvent *event) {
             break;
         case 1:
             game->keyPressEvent(event);
+            if (game->getStatus() == 1 && event->key() == Qt::Key_R) init();
             break;
         case 2:
             over->keyPressEvent(event);
-            break;
-        case 3:
-            pause->keyPressEvent(event);
+            if (event->key() == Qt::Key_R) init();
             break;
     }
 }
@@ -79,9 +74,6 @@ void Widget::keyReleaseEvent(QKeyEvent *event) {
             break;
         case 2:
             over->keyPressEvent(event);
-            break;
-        case 3:
-            pause->keyPressEvent(event);
             break;
     }
 }
@@ -105,6 +97,11 @@ void Widget::mouseMoveEvent(QMouseEvent *event)
     if (status == 1) {
         game->mouseMoveEvent(event);
     }
+}
+
+void Widget::init() {
+    delete game;
+    game = new Game();
 }
 
 int Widget::status = 0;

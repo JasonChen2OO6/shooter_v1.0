@@ -2,39 +2,57 @@
 
 #include "widget.h"
 
-const int levelUps[11] = {10, 20, 50, 100, 150, 200, 300, 500, 700, 1000, 1000};
+const int levelUps[21] = {10, 20, 30, 40, 50, 70, 90, 110, 140, 170,
+                          200, 240, 280, 320, 380, 440, 500, 600, 800, 1000, 1000};
+
+
+
 
 Player::Player() {
     position = *new QPointF(WIN_W / 2, WIN_H / 2);
     angle = 0;
-    velocity = 0.2;
+
     dx = 0;
     dy = 0;
     up = 0;
     down = 0;
     left = 0;
     right = 0;
+
     canShoot = false;
+
     health = 10;
     experience = 0;
     level = 0;
-    interval = 100;
+
     lastShoot = 100;
+
+    interval = 100;
+    velocity = 0.2;
     attack = 1;
+    bulletSize = 1;
 }
 
 void Player::draw(QPainter &painter) {
     painter.setPen(Qt::black);
     painter.drawEllipse(position.x() - PLY_SIZE / 2, position.y() - PLY_SIZE / 2, PLY_SIZE, PLY_SIZE);
+    drawData(painter);
+}
 
+void Player::drawData(QPainter &painter) {
     painter.setPen(Qt::blue);
     painter.setFont(QFont("Arial", 10));
+
     painter.drawText(0, 0, WIN_W, 40, Qt::AlignLeft, "HP: ");
     for (int i = 0; i < health; i++) {
         painter.drawText(90 + i * 30, 0, WIN_W - (90 + i * 30), 40, Qt::AlignLeft, "♥");
     }
     painter.drawText(0, 40, WIN_W, 40, Qt::AlignLeft, "EXP: " + QString::number(experience) + " / " + QString::number(levelUps[level]));
     painter.drawText(0, 80, WIN_W, 40, Qt::AlignLeft, "LV: " + QString::number(level));
+    painter.drawText(0, 120, WIN_W, 40, Qt::AlignLeft, "VEL: " + QString::number(velocity));
+    painter.drawText(0, 160, WIN_W, 40, Qt::AlignLeft, "ATK: " + QString::number(attack));
+    painter.drawText(0, 200, WIN_W, 40, Qt::AlignLeft, "BLTSIZE: " + QString::number(bulletSize));
+
     if (Widget::levelUp > 0) {
         painter.drawText(0, 0, WIN_W, 40, Qt::AlignRight, "LEVEL UP!");
     }
@@ -75,7 +93,7 @@ std::vector<PlayerBullet*> Player::shoot() {
     shootBulletArray.clear();
 
     if (canShoot && lastShoot >= interval) {
-        shootBulletArray.push_back(new PlayerBullet(position, angle, BLT_SPEED, attack));
+        shootBulletArray.push_back(new PlayerBullet(position, angle, BLT_SPEED, attack, bulletSize));
         lastShoot = 0;
     }
 
@@ -92,6 +110,10 @@ int Player::getExperience() {
 
 QPointF Player::getPosition() {
     return position;
+}
+
+int Player::getBulletSize() {
+    return bulletSize;
 }
 
 void Player::keyPressEvent(QKeyEvent *event) {
