@@ -22,6 +22,8 @@ Player::Player() {
     canShoot = false;
 
     health = 10;
+    invincibleTime = 100;
+    restInvincibleTime = 0;
     experience = 0;
     level = 0;
 
@@ -35,7 +37,7 @@ Player::Player() {
 
 void Player::draw(QPainter &painter) {
     painter.setPen(Qt::black);
-    painter.drawEllipse(position.x() - PLY_SIZE / 2, position.y() - PLY_SIZE / 2, PLY_SIZE, PLY_SIZE);
+    if (restInvincibleTime / 10 % 2 == 0) painter.drawEllipse(position.x() - PLY_SIZE / 2, position.y() - PLY_SIZE / 2, PLY_SIZE, PLY_SIZE);
     drawData(painter);
 }
 
@@ -59,6 +61,8 @@ void Player::drawData(QPainter &painter) {
 }
 
 void Player::update() {
+    if (restInvincibleTime > 0) --restInvincibleTime;
+
     if (experience >= levelUps[level] && level < 10) {
         level++;
         Widget::levelUp++;
@@ -114,6 +118,10 @@ QPointF Player::getPosition() {
 
 int Player::getBulletSize() {
     return bulletSize;
+}
+
+int Player::getAttack() {
+    return restInvincibleTime > 0 ? 0 : attack;
 }
 
 void Player::keyPressEvent(QKeyEvent *event) {
@@ -172,7 +180,9 @@ bool Player::isAlive() {
 }
 
 void Player::hurt(int attack) {
+    if (restInvincibleTime > 0) return;
     health -= attack;
+    restInvincibleTime = invincibleTime;
 }
 
 void Player::reset() {

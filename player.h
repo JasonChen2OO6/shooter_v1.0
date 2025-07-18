@@ -26,6 +26,7 @@ public:
     int getExperience();
     QPointF getPosition();
     int getBulletSize();
+    int getAttack();
 
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
@@ -47,6 +48,8 @@ private:
     bool canShoot;
 
     int health;
+    int invincibleTime;
+    int restInvincibleTime;
     int experience;
     int level;
 
