@@ -50,6 +50,7 @@ public:
 
 private:
     QPointF position;
+    QPointF mousePosition;
     float dx, dy;
     bool up, down, left, right;
     float angle;

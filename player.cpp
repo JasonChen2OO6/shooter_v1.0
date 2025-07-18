@@ -61,6 +61,8 @@ void Player::drawData(QPainter &painter) {
 void Player::update() {
     if (restInvincibleTime > 0) --restInvincibleTime;
 
+    angle = atan2(float(mousePosition.y() - position.y()), float(mousePosition.x() - position.x()));
+
     if (experience >= levelUps[level] && level < 10) {
         level++;
         Widget::levelUp++;
@@ -195,7 +197,7 @@ void Player::mouseReleaseEvent(QMouseEvent *event) {
 }
 
 void Player::mouseMoveEvent(QMouseEvent *event) {
-    angle = atan2(float(event->y() - position.y()), float(event->x() - position.x()));
+    mousePosition = QPointF(event->x(), event->y());
 }
 
 bool Player::isAlive() {
