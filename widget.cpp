@@ -73,7 +73,7 @@ void Widget::keyReleaseEvent(QKeyEvent *event) {
             game->keyReleaseEvent(event);
             break;
         case 2:
-            over->keyPressEvent(event);
+            over->keyReleaseEvent(event);
             break;
     }
 }

@@ -15,8 +15,13 @@ public:
 
     void draw(QPainter &painter);
 
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
+
 private:
     Player *player;
+
+    int pressCode;
 };
 
 #endif // PAUSE_H

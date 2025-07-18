@@ -164,26 +164,34 @@ void Game::update() {
 void Game::keyPressEvent(QKeyEvent *event) {
     player->keyPressEvent(event);
 
+    if (event->isAutoRepeat()) return;
+
     int keyCode = event->key();
     if (status == 0 && keyCode == Qt::Key_Escape) {
           qDebug() << keyCode;
           status = 1;
           player->reset();
-    }
-    if (status == 1 && keyCode == Qt::Key_Space) {
-          qDebug() << keyCode;
-          status = 0;
-    }
-    if (status == 1 && keyCode == Qt::Key_R) {
-          qDebug() << keyCode;
-          Widget::status = 0;
-          Widget::levelUp = 0;
-          Widget::experience = 0;
+    } else if (status == 1) {
+        pause->keyPressEvent(event);
+        if (keyCode == Qt::Key_Escape) {
+              qDebug() << keyCode;
+              status = 0;
+        }
+        if (keyCode == Qt::Key_R) {
+              qDebug() << keyCode;
+              Widget::status = 0;
+              Widget::levelUp = 0;
+              Widget::experience = 0;
+        }
     }
 }
 
 void Game::keyReleaseEvent(QKeyEvent *event) {
     player->keyReleaseEvent(event);
+
+    if (status == 1) {
+        pause->keyReleaseEvent(event);
+    }
 }
 
 void Game::mousePressEvent(QMouseEvent *event) {
@@ -228,7 +236,7 @@ bool Game::checkCollision(Player *player, Enemy *enemy) {
 
 
 bool Game::checkCollision(PlayerBullet *playerBullet, Enemy *enemy) {
-    return dist(playerBullet, enemy) < BLT_SIZE / 2 + ENM_SIZE / 2;
+    return dist(playerBullet, enemy) < player->getBulletSize() / 2 + ENM_SIZE / 2;
 }
 
 bool Game::checkCollision(Player *player, EnemyBullet *enemyBullet) {
@@ -239,5 +247,4 @@ template<typename T1, typename T2>
 float Game::dist(T1 a, T2 b) {
     QPointF vec = a->getPosition() - b->getPosition();
     return sqrt(vec.x() * vec.x() + vec.y() * vec.y());
-
 }

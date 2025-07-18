@@ -25,7 +25,16 @@ public:
 
     int getExperience();
     QPointF getPosition();
+
+    int getInterval();
+    int getVelocity();
+    int getAttack();
     int getBulletSize();
+
+    void addInterval();
+    void addVelocity();
+    void addAttack();
+    void addBulletSize();
 
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
@@ -53,7 +62,7 @@ private:
     int lastShoot;
 
     int interval;
-    float velocity;
+    int velocity;
     int attack;
     int bulletSize;
 };
