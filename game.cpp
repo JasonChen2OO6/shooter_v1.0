@@ -3,11 +3,15 @@
 
 Game::Game() {
     timer = 0;
+
     player = new Player();
+
     for (auto enemy : enemyArray) delete enemy;
     enemyArray.clear();
+
     for (auto bullet : playerBulletArray) delete bullet;
     playerBulletArray.clear();
+
     for (auto bullet : enemyBulletArray) delete bullet;
     enemyBulletArray.clear();
 }
@@ -77,26 +81,41 @@ void Game::update() {
 
     for (auto it = enemyArray.begin(); it != enemyArray.end();) {
         if (!(*it)->isAlive()) {
-            player->getExperience((*it)->getExperience());
+            player->addExperience((*it)->getExperience());
             delete *it;
             it = enemyArray.erase(it);
         }
         else ++it;
     }
+
+    for (auto it = enemyArray.begin(); it != enemyArray.end();) {
+        bool flag = false;
+        if (checkCollision(player, *it)) {
+            flag = true;
+            player->hurt(1);
+        }
+        if (flag) {
+            delete *it;
+            it = enemyArray.erase(it);
+        }
+        else ++it;
+    }
+
+    if (!player->isAlive()) {
+        Widget::status = 2;
+    }
+
+    Widget::experience = getExperience();
 }
 
 void Game::keyPressEvent(QKeyEvent *event) {
     player->keyPressEvent(event);
 
     int keyCode = event->key();
-    if (keyCode == Qt::Key_P){
+    if (keyCode == Qt::Key_Escape){
           qDebug() << keyCode;
           Widget::status = 3;
           player->reset();
-    }
-    if (keyCode == Qt::Key_Escape){
-          qDebug() << keyCode;
-          Widget::status = 2;
     }
 }
 
@@ -115,6 +134,17 @@ void Game::mouseReleaseEvent(QMouseEvent *event) {
 void Game::mouseMoveEvent(QMouseEvent *event)
 {
     player->mouseMoveEvent(event);
+}
+
+int Game::getExperience() {
+    return player->getExperience();
+}
+
+bool Game::checkCollision(Player *player, Enemy *enemy)
+{
+    QPointF vec = player->getPosition() - enemy->getPosition();
+    float r = sqrt(vec.x() * vec.x() + vec.y() * vec.y());
+    return r < PLY_SIZE / 2 + ENM_SIZE / 2;
 }
 
 bool Game::checkCollision(PlayerBullet *playerBullet, Enemy *enemy)

@@ -1,5 +1,9 @@
 #include "player.h"
 
+#include "widget.h"
+
+const int levelUps[11] = {10, 20, 50, 100, 150, 200, 300, 500, 700, 1000, 1000};
+
 Player::Player() {
     position = *new QPointF(WIN_W / 2, WIN_H / 2);
     angle = 0;
@@ -22,9 +26,26 @@ Player::Player() {
 void Player::draw(QPainter &painter) {
     painter.setPen(Qt::black);
     painter.drawEllipse(position.x() - PLY_SIZE / 2, position.y() - PLY_SIZE / 2, PLY_SIZE, PLY_SIZE);
+
+    painter.setPen(Qt::blue);
+    painter.setFont(QFont("Arial", 10));
+    painter.drawText(0, 0, WIN_W, 40, Qt::AlignLeft, "HP: ");
+    for (int i = 0; i < health; i++) {
+        painter.drawText(90 + i * 30, 0, WIN_W - (90 + i * 30), 40, Qt::AlignLeft, "♥");
+    }
+    painter.drawText(0, 40, WIN_W, 40, Qt::AlignLeft, "EXP: " + QString::number(experience) + " / " + QString::number(levelUps[level]));
+    painter.drawText(0, 80, WIN_W, 40, Qt::AlignLeft, "LV: " + QString::number(level));
+    if (Widget::levelUp > 0) {
+        painter.drawText(0, 0, WIN_W, 40, Qt::AlignRight, "LEVEL UP!");
+    }
 }
 
 void Player::update() {
+    if (experience >= levelUps[level] && level < 10) {
+        level++;
+        Widget::levelUp++;
+    }
+
     dx *= 0.95;
     dy *= 0.95;
 
@@ -61,8 +82,12 @@ std::vector<PlayerBullet*> Player::shoot() {
     return shootBulletArray;
 }
 
-void Player::getExperience(int _experience) {
+void Player::addExperience(int _experience) {
     experience += _experience;
+}
+
+int Player::getExperience() {
+    return experience;
 }
 
 QPointF Player::getPosition() {
@@ -116,9 +141,16 @@ void Player::mouseReleaseEvent(QMouseEvent *event) {
     }
 }
 
-void Player::mouseMoveEvent(QMouseEvent *event)
-{
+void Player::mouseMoveEvent(QMouseEvent *event) {
     angle = atan2(float(event->y() - position.y()), float(event->x() - position.x()));
+}
+
+bool Player::isAlive() {
+    return health > 0;
+}
+
+void Player::hurt(int attack) {
+    health -= attack;
 }
 
 void Player::reset() {

@@ -20,7 +20,9 @@ public:
     void draw(QPainter &painter);
     void update();
     std::vector<PlayerBullet*> shoot();
-    void getExperience(int _experience);
+    void addExperience(int _experience);
+
+    int getExperience();
     QPointF getPosition();
 
     void keyPressEvent(QKeyEvent *event);
@@ -28,6 +30,9 @@ public:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
+
+    bool isAlive();
+    void hurt(int attack);
 
     void reset();
 

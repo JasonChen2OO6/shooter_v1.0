@@ -1,8 +1,19 @@
 #include "enemy.h"
 
-Enemy::Enemy(QPointF _position, float _angle, float _velocity, int _health, int _interval, int _attack) :
-    position(_position), angle(_angle), dx(0), dy(0), velocity(_velocity), health(_health), interval(_interval), lastShoot(0), attack(_attack), life(0) {}
-
+Enemy::Enemy(QPointF _position, float _angle, float _velocity,
+             int _health, int _interval, int _attack, int _experience) {
+    position = _position;
+    angle = _angle;
+    dx = 0;
+    dy = 0;
+    velocity = _velocity;
+    health = _health;
+    interval = _interval;
+    lastShoot = 0;
+    attack = _attack;
+    experience = _experience;
+    life = 0;
+}
 
 //std::vector<EnemyBullet> Enemy::shoot() {
 //    std::vector<EnemyBullet> shootBulletArray;
@@ -37,18 +48,18 @@ Enemy::~Enemy() {
 }
 
 Enemy01::Enemy01(QPointF _position) :
-    Enemy(_position, 0, ENM01_V, ENM01_H, 0, ENM01_A) {
-    qDebug() << "New Enemy" << " " << _position.x() << " " << _position.y();
+    Enemy(_position, 0, ENM01_V, ENM01_H, 0, ENM01_A, ENM01_E) {
+
 }
 
 void Enemy01::draw(QPainter &painter) {
-    qDebug() << "Draw Enemy";
     painter.setPen(Qt::red);
     painter.drawEllipse(position.x() - ENM_SIZE / 2, position.y() - ENM_SIZE / 2, ENM_SIZE, ENM_SIZE);
 }
 
 void Enemy01::update(QPointF playerPosition) {
     ++life;
+
     dx *= 0.9;
     dy *= 0.9;
 

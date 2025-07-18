@@ -13,14 +13,17 @@
 
 class Enemy {
 public:
-    Enemy(QPointF _position, float _angle, float _velocity, int health, int _interval, int _attack);
+    Enemy(QPointF _position, float _angle, float _velocity,
+          int health, int _interval, int _attack, int _experience);
 
     virtual void draw(QPainter &painter) = 0;
     virtual void update(QPointF playPosition) = 0;
     virtual std::vector<EnemyBullet> shoot() = 0;
     virtual void repel(QPointF enemyPosition) = 0;
+
     QPointF getPosition();
     int getExperience();
+
     bool isAlive();
     void hurt(int attack);
 
@@ -43,7 +46,7 @@ protected:
     int life;
 };
 
-class Enemy01 : public Enemy{
+class Enemy01 : public Enemy {
 public:
     Enemy01(QPointF _position);
 
