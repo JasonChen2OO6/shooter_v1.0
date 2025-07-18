@@ -37,15 +37,15 @@ Player::Player() {
 
     canSplash = true;
     canBounce = false;
-    canRetard = false;
+    canRetard = true;
     canTrace = false;
     canPenetrate = true;
     longerInvincible = false;
     hurtInvicible = false;
     addHealthByDefeat = false;
     addHealthByTime = false;
-    addShieldByHurt = false;
-    addShieldByTime = true;
+    addShieldByHurt = true;
+    addShieldByTime = false;
     canPassWall = true;
 }
 
