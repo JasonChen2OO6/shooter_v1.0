@@ -26,12 +26,13 @@ public:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
+    void init();
 
     Title *title = nullptr;
     Game *game = nullptr;
     Over *over = nullptr;
     Pause *pause = nullptr;
-    static int status;  // 0 title 1 game 2 over 3 pause
+    static int status;  // 0 title 1 game(pause) 2 over
     static int levelUp;
     static int experience;
 

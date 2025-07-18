@@ -5,6 +5,7 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 
+#include "pause.h"
 #include "enemy.h"
 #include "player.h"
 #include "enemybullet.h"
@@ -22,12 +23,17 @@ public:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
+    int getStatus();
 
     int getExperience();
 
     ~Game();
 
 private:
+    Pause *pause;
+
+    int status; // 0 game 1 pause
+
     int timer;
 
     Player *player;

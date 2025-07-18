@@ -7,14 +7,16 @@
 
 #include "config.h"
 
+#include "player.h"
+
 class Pause {
 public:
-    Pause();
+    Pause(Player *_player);
 
     void draw(QPainter &painter);
 
-    void keyPressEvent(QKeyEvent *event);
-    void keyReleaseEvent(QKeyEvent *event);
+private:
+    Player *player;
 };
 
 #endif // PAUSE_H

@@ -2,9 +2,13 @@
 #include "widget.h"
 
 Game::Game() {
+    status = 0;
+
     timer = 0;
 
     player = new Player();
+
+    pause = new Pause(player);
 
     for (auto enemy : enemyArray) delete enemy;
     enemyArray.clear();
@@ -17,105 +21,121 @@ Game::Game() {
 }
 
 void Game::draw(QPainter &painter) {
-    player->draw(painter);
+    if (status == 0) {
+        player->draw(painter);
 
-    for (auto bullet : playerBulletArray) {
-        bullet->draw(painter);
-    }
+        for (auto bullet : playerBulletArray) {
+            bullet->draw(painter);
+        }
 
-    for (auto enemy : enemyArray) {
-        enemy->draw(painter);
+        for (auto enemy : enemyArray) {
+            enemy->draw(painter);
+        }
+    } else {
+        pause->draw(painter);
     }
 }
 
 void Game::update() {
-    ++timer;
+    if (status == 0) {
+        ++timer;
 
-    player->update();
+        player->update();
 
-    std::vector<PlayerBullet*> newBulletArray = player->shoot();
-    for (auto bullet : newBulletArray) {
-        playerBulletArray.push_back(bullet);
-    }
-
-    for (auto it = playerBulletArray.begin(); it != playerBulletArray.end();) {
-        (*it)->update();
-        if (!(*it)->isInScreen()) {
-            delete *it;
-            it = playerBulletArray.erase(it);
-        } else {
-            ++it;
+        std::vector<PlayerBullet*> newBulletArray = player->shoot();
+        for (auto bullet : newBulletArray) {
+            playerBulletArray.push_back(bullet);
         }
-    }
 
-    if (timer % 100 == 0) {
-        float angle = (rand() % 360) / 180.0 * M_PI;
-        enemyArray.push_back(new Enemy01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W* sin(angle))));
-    }
-
-    for (auto enemy : enemyArray) {
-        for (auto _enemy : enemyArray) {
-            if (enemy == _enemy) continue;
-            enemy->repel(_enemy->getPosition());
-        }
-    }
-
-    for (auto enemy : enemyArray) {
-        enemy->update(player->getPosition());
-    }
-
-    for (auto it = playerBulletArray.begin(); it != playerBulletArray.end();) {
-        bool flag = false;
-        for (auto enemy : enemyArray) {
-            if (enemy->isAlive() && checkCollision(*it, enemy)) {
-                flag = true;
-                enemy->hurt((*it)->getAttack());
+        for (auto it = playerBulletArray.begin(); it != playerBulletArray.end();) {
+            (*it)->update();
+            if (!(*it)->isInScreen()) {
+                delete *it;
+                it = playerBulletArray.erase(it);
+            } else {
+                ++it;
             }
         }
-        if (flag) {
-            delete *it;
-            it = playerBulletArray.erase(it);
-        }
-        else ++it;
-    }
 
-    for (auto it = enemyArray.begin(); it != enemyArray.end();) {
-        if (!(*it)->isAlive()) {
-            player->addExperience((*it)->getExperience());
-            delete *it;
-            it = enemyArray.erase(it);
+        if (timer % 100 == 0) {
+            float angle = (rand() % 360) / 180.0 * M_PI;
+            enemyArray.push_back(new Enemy01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W* sin(angle))));
         }
-        else ++it;
-    }
 
-    for (auto it = enemyArray.begin(); it != enemyArray.end();) {
-        bool flag = false;
-        if (checkCollision(player, *it)) {
-            flag = true;
-            player->hurt(1);
+        for (auto enemy : enemyArray) {
+            for (auto _enemy : enemyArray) {
+                if (enemy == _enemy) continue;
+                enemy->repel(_enemy->getPosition());
+            }
         }
-        if (flag) {
-            delete *it;
-            it = enemyArray.erase(it);
+
+        for (auto enemy : enemyArray) {
+            enemy->update(player->getPosition());
         }
-        else ++it;
-    }
 
-    if (!player->isAlive()) {
-        Widget::status = 2;
-    }
+        for (auto it = playerBulletArray.begin(); it != playerBulletArray.end();) {
+            bool flag = false;
+            for (auto enemy : enemyArray) {
+                if (enemy->isAlive() && checkCollision(*it, enemy)) {
+                    flag = true;
+                    enemy->hurt((*it)->getAttack());
+                }
+            }
+            if (flag) {
+                delete *it;
+                it = playerBulletArray.erase(it);
+            }
+            else ++it;
+        }
 
-    Widget::experience = getExperience();
+        for (auto it = enemyArray.begin(); it != enemyArray.end();) {
+            if (!(*it)->isAlive()) {
+                player->addExperience((*it)->getExperience());
+                delete *it;
+                it = enemyArray.erase(it);
+            }
+            else ++it;
+        }
+
+        for (auto it = enemyArray.begin(); it != enemyArray.end();) {
+            bool flag = false;
+            if (checkCollision(player, *it)) {
+                flag = true;
+                player->hurt(1);
+            }
+            if (flag) {
+                delete *it;
+                it = enemyArray.erase(it);
+            }
+            else ++it;
+        }
+
+        if (!player->isAlive()) {
+            Widget::status = 2;
+        }
+
+        Widget::experience = getExperience();
+    }
 }
 
 void Game::keyPressEvent(QKeyEvent *event) {
     player->keyPressEvent(event);
 
     int keyCode = event->key();
-    if (keyCode == Qt::Key_Escape){
+    if (status == 0 && keyCode == Qt::Key_Escape) {
           qDebug() << keyCode;
-          Widget::status = 3;
+          status = 1;
           player->reset();
+    }
+    if (status == 1 && keyCode == Qt::Key_Space) {
+          qDebug() << keyCode;
+          status = 0;
+    }
+    if (status == 1 && keyCode == Qt::Key_R) {
+          qDebug() << keyCode;
+          Widget::status = 0;
+          Widget::levelUp = 0;
+          Widget::experience = 0;
     }
 }
 
@@ -131,25 +151,41 @@ void Game::mouseReleaseEvent(QMouseEvent *event) {
     player->mouseReleaseEvent(event);
 }
 
-void Game::mouseMoveEvent(QMouseEvent *event)
-{
+void Game::mouseMoveEvent(QMouseEvent *event) {
     player->mouseMoveEvent(event);
+}
+
+int Game::getStatus() {
+    return status;
 }
 
 int Game::getExperience() {
     return player->getExperience();
 }
 
-bool Game::checkCollision(Player *player, Enemy *enemy)
-{
+Game::~Game() {
+    delete player;
+
+    delete pause;
+
+    for (auto enemy : enemyArray) delete enemy;
+    enemyArray.clear();
+
+    for (auto bullet : playerBulletArray) delete bullet;
+    playerBulletArray.clear();
+
+    for (auto bullet : enemyBulletArray) delete bullet;
+    enemyBulletArray.clear();
+}
+
+bool Game::checkCollision(Player *player, Enemy *enemy) {
     QPointF vec = player->getPosition() - enemy->getPosition();
     float r = sqrt(vec.x() * vec.x() + vec.y() * vec.y());
     return r < PLY_SIZE / 2 + ENM_SIZE / 2;
 }
 
-bool Game::checkCollision(PlayerBullet *playerBullet, Enemy *enemy)
-{
+bool Game::checkCollision(PlayerBullet *playerBullet, Enemy *enemy) {
     QPointF vec = playerBullet->getPosition() - enemy->getPosition();
     float r = sqrt(vec.x() * vec.x() + vec.y() * vec.y());
-    return r < BLT_SIZE / 2 + ENM_SIZE / 2;
+    return r < BLT_SIZE * player->getBulletSize() / 2 + ENM_SIZE / 2;
 }

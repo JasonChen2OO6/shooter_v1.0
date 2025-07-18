@@ -21,7 +21,8 @@ void Over::keyPressEvent(QKeyEvent *event) {
     if (keyCode == Qt::Key_R){
           qDebug() << keyCode;
           Widget::status = 0;
-          // initialize
+          Widget::levelUp = 0;
+          Widget::experience = 0;
     }
 }
 
