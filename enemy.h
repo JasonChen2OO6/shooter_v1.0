@@ -135,7 +135,7 @@ private:
 
 class Boss02 : public Enemy {
 public:
-    Boss02(QPointF _position);
+    Boss02(QPointF _position, QPointF playerPosition);
 
     virtual void update(QPointF playerPosition);
     virtual void draw(QPainter &painter);
@@ -143,6 +143,7 @@ public:
 
     ~Boss02();
 private:
+    QPointF nextPosition;
     int interval;
     int moveInterval;
 };

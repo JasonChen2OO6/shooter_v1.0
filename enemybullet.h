@@ -14,8 +14,8 @@ public:
     int getAttack();
     QPointF getPosition();
 
-    void draw(QPainter &painter);
-    void update();
+    virtual void draw(QPainter &painter);
+    virtual void update();
     bool isInScreen();
 
 private:
