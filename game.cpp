@@ -149,39 +149,39 @@ void Game::playerShoot()
 
 void Game::generateEnemy() {
     float angle = (rand() % 360) / 180.0 * M_PI;
-    if (timer == 1) {
+    if (timer == 1 * 60 * 100) {
         boss02 = new Boss02(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle)), player->getPosition());
         enemyArray.push_back(boss02);
     }
-    if (timer % BOSS02_MI == 1) {
+    if (timer > 1 * 60 * 100 && timer % BOSS02_MI == 1) {
         for (int i = 0; i < 12; i++) {
             enemyArray.push_back(new SubEnemy(boss02->getPosition(), M_PI * 2 / 12 * i));
         }
     }
-//    if (timer == 3000) {
-//        float angle = (rand() % 360) / 180.0 * M_PI;
-//        enemyArray.push_back(new Boss01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
-//    }
-//    if (timer % 200 == 0) {
-//        float angle = (rand() % 360) / 180.0 * M_PI;
-//        enemyArray.push_back(new Enemy01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
-//    }
+    if (timer < 1 * 60 * 100 && timer == 3000) {
+        float angle = (rand() % 360) / 180.0 * M_PI;
+        enemyArray.push_back(new Boss01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
+    }
+    if (timer < 1 * 60 * 100 && timer % 150 == 0) {
+        float angle = (rand() % 360) / 180.0 * M_PI;
+        enemyArray.push_back(new Enemy01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
+    }
 
-//    if (timer > 1000 && timer % 300 == 0) {
-//        float angle = (rand() % 360) / 180 * M_PI;
-//        enemyArray.push_back(new Enemy02(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
-//    }
+    if (timer < 1 * 60 * 100 && timer > 1000 && timer % 300 == 0) {
+        float angle = (rand() % 360) / 180 * M_PI;
+        enemyArray.push_back(new Enemy02(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
+    }
 
-//    if (timer > 2000 && timer % 800 == 0) {
-//        float angle = (rand() % 360) / 180.0 * M_PI;
-//        enemyArray.push_back(new Enemy03(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
+    if (timer < 1 * 60 * 100 && timer > 2000 && timer % 1000 == 0) {
+        float angle = (rand() % 360) / 180.0 * M_PI;
+        enemyArray.push_back(new Enemy03(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
 
-//    }
-//    if (timer % 1000 == 0) {
-//        float angle = (rand() % 360) / 180.0 * M_PI;
-//        enemyArray.push_back(new EliteEnemy01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
+    }
+    if (timer < 1 * 60 * 100 && timer % 1000 == 0) {
+        float angle = (rand() % 360) / 180.0 * M_PI;
+        enemyArray.push_back(new EliteEnemy01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
 
-//    }
+    }
 }
 
 void Game::enemyRepulse() {

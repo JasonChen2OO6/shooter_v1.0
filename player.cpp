@@ -20,7 +20,6 @@ Player::Player() {
     experience = 0;
     level = 0;
 
-
     lastShoot = 100;
     restInvincibleTime = 0;
     restAddHealthTime = 0;
@@ -45,7 +44,7 @@ Player::Player() {
     addHealthByTime = false;
     addShieldByHurt = false;
     addShieldByTime = false;
-    canPassWall = true;
+    canPassWall = false;
 }
 
 void Player::draw(QPainter &painter) {

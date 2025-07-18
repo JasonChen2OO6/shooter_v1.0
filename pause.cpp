@@ -68,7 +68,7 @@ void Pause::draw(QPainter &painter) {
         painter.drawText(WIN_W / 2 - 500, WIN_H / 2 + 250, 200, 50, Qt::AlignCenter, "[1]");
         if ((player->getLevel() - Widget::levelUp + 1) % 5 == 0) {
             painter.setFont(QFont("Arial", 6));
-            printData2(WIN_W / 2 - 600, WIN_H / 2 + 350, 400, 50, painter, id1);
+            printData2(WIN_W / 2 - 600, WIN_H / 2 + 325, 400, 50, painter, id1);
         } else {
             painter.setFont(QFont("Arial", 10));
             printData(WIN_W / 2 - 550, WIN_H / 2, 300, 100, painter, id1);
@@ -82,7 +82,7 @@ void Pause::draw(QPainter &painter) {
         painter.drawText(WIN_W / 2 - 100, WIN_H / 2 + 250, 200, 50, Qt::AlignCenter, "[2]");
         if ((player->getLevel() - Widget::levelUp + 1) % 5 == 0) {
             painter.setFont(QFont("Arial", 6));
-            printData2(WIN_W / 2 - 200, WIN_H / 2 + 350, 400, 50, painter, id2);
+            printData2(WIN_W / 2 - 200, WIN_H / 2 + 325, 400, 50, painter, id2);
         } else {
             painter.setFont(QFont("Arial", 10));
             printData(WIN_W / 2 - 150, WIN_H / 2, 300, 100, painter, id2);
@@ -95,7 +95,7 @@ void Pause::draw(QPainter &painter) {
         painter.drawText(WIN_W / 2 + 300, WIN_H / 2 + 250, 200, 50, Qt::AlignCenter, "[3]");
         if ((player->getLevel() - Widget::levelUp + 1) % 5 == 0) {
             painter.setFont(QFont("Arial", 6));
-            printData2(WIN_W / 2 + 200, WIN_H / 2 + 350, 400, 50, painter, id3);
+            printData2(WIN_W / 2 + 200, WIN_H / 2 + 325, 400, 50, painter, id3);
         } else {
             painter.setFont(QFont("Arial", 10));
             printData(WIN_W / 2 + 250, WIN_H / 2, 300, 100, painter, id3);
