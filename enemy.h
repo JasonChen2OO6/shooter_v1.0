@@ -13,17 +13,19 @@
 
 class Enemy {
 public:
-    Enemy(QPointF _position, float _angle, float _velocity,
+    Enemy(QPointF _position, float _angle,  float _mass, float _velocity,
           int health, int _interval, int _attack, int _experience);
 
     virtual void draw(QPainter &painter) = 0;
     virtual void update(QPointF playPosition) = 0;
-    virtual std::vector<EnemyBullet> shoot() = 0;
-    virtual void repel(QPointF enemyPosition) = 0;
+    virtual std::vector<EnemyBullet*> shoot(QPointF playPosition) = 0;
 
     QPointF getPosition();
     int getExperience();
+    int getAttack();
 
+    void repel(QPointF playerPosition);
+    void repulse(QPointF enemyPosition);
     bool isAlive();
     void hurt(int attack);
 
@@ -33,6 +35,7 @@ protected:
     QPointF position;
     float angle;
 
+    float mass;
     float dx, dy;
     float velocity;
     int health;
@@ -52,10 +55,33 @@ public:
 
     virtual void draw(QPainter &painter);
     virtual void update(QPointF playPosition);
-    virtual std::vector<EnemyBullet> shoot();
-    virtual void repel(QPointF enemyPosition);
+    virtual std::vector<EnemyBullet*> shoot(QPointF playerPosition);
 
     virtual ~Enemy01();
+};
+
+class Enemy02 : public Enemy {
+public:
+    Enemy02(QPointF _position);
+
+    virtual void draw(QPainter &painter);
+    virtual void update(QPointF playPosition);
+    virtual std::vector<EnemyBullet*> shoot(QPointF playerPosition);
+
+    virtual ~Enemy02();
+};
+
+class Enemy03 : public Enemy {
+public:
+    Enemy03(QPointF _position);
+
+    virtual void draw(QPainter &painter);
+    virtual void update(QPointF playPosition);
+    virtual std::vector<EnemyBullet*> shoot(QPointF playerPosition);
+
+    virtual ~Enemy03();
+private:
+    int interval;
 };
 
 #endif // ENEMY_H

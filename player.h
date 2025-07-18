@@ -50,9 +50,9 @@ private:
     int experience;
     int level;
 
-    int interval;
     int lastShoot;
 
+    int interval;
     float velocity;
     int attack;
     int bulletSize;

@@ -20,3 +20,11 @@ void EnemyBullet::update() {
 bool EnemyBullet::isInScreen() {
     return position.x() >= 0 && position.x() <= WIN_W && position.y() >= 0 && position.y() <= WIN_H;
 }
+
+int EnemyBullet::getAttack() {
+    return attack;
+}
+
+QPointF EnemyBullet::getPosition() {
+    return position;
+}

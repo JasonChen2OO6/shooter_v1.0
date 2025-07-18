@@ -2,7 +2,11 @@
 
 #include "widget.h"
 
-const int levelUps[11] = {10, 20, 50, 100, 150, 200, 300, 500, 700, 1000, 1000};
+const int levelUps[21] = {10, 20, 30, 40, 50, 70, 90, 110, 140, 170,
+                          200, 240, 280, 320, 380, 440, 500, 600, 800, 1000, 1000};
+
+
+
 
 Player::Player() {
     position = *new QPointF(WIN_W / 2, WIN_H / 2);
@@ -21,9 +25,9 @@ Player::Player() {
     experience = 0;
     level = 0;
 
-    interval = 100;
     lastShoot = 100;
 
+    interval = 100;
     velocity = 0.2;
     attack = 1;
     bulletSize = 1;

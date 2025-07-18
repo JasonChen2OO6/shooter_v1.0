@@ -11,6 +11,9 @@ class EnemyBullet {
 public:
     EnemyBullet(QPointF _position, float _angle, float _velocity, int _attack);
 
+    int getAttack();
+    QPointF getPosition();
+
     void draw(QPainter &painter);
     void update();
     bool isInScreen();
