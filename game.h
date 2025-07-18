@@ -37,6 +37,8 @@ private:
 
     int timer;
 
+    Boss02 *boss02;
+
     Player *player;
     std::vector<Enemy*> enemyArray;
     std::vector<PlayerBullet*> playerBulletArray;

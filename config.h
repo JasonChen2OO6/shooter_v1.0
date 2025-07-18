@@ -5,11 +5,8 @@
 #define WIN_H 960
 
 #define PLY_SIZE 40
-#define ENM_SIZE 20
 #define BLT_SIZE 10
 #define PTC_SIZE 10
-
-#define EENM_SIZE 40
 
 #define ENM_RPS 1       // repulsion
 #define ENM_RPL 2000
@@ -19,18 +16,21 @@
 
 #define BLT_SPEED 10
 
+#define ENM01_S 20
 #define ENM01_M 1.5
 #define ENM01_V 2000    // velocity
 #define ENM01_H 1       // health
 #define ENM01_A 1       // attack
 #define ENM01_E 1       // experience
 
+#define ENM02_S 20
 #define ENM02_M 1
 #define ENM02_V 2000    // velocity
 #define ENM02_H 1       // health
 #define ENM02_A 1       // attack
 #define ENM02_E 2       // experience
 
+#define ENM03_S 20
 #define ENM03_M 3
 #define ENM03_V 3000    // velocity
 #define ENM03_H 3       // health
@@ -39,6 +39,7 @@
 #define ENM03_I 300     // interval
 #define ENM03_BV 3      // bullet velocity
 
+#define EENM01_S 40
 #define EENM01_M 10
 #define EENM01_V 5000    // velocity
 #define EENM01_H 3       // health
@@ -46,6 +47,36 @@
 #define EENM01_E 5       // experience
 #define EENM01_I 500     // interval
 #define EENM01_BV 2      // bullet velocity
+
+#define BOSS01_S 60
+#define BOSS01_M 50
+#define BOSS01_V 0.02
+#define BOSS01_H 1000
+#define BOSS01_A 2
+#define BOSS01_E 100
+#define BOSS01_I 10
+#define BOSS01_MI 500
+#define BOSS01_BV 1
+
+#define BOSS02_S 80
+#define BOSS02_M 1000
+#define BOSS02_V 0.02
+#define BOSS02_H 10000
+#define BOSS02_A 3
+#define BOSS02_E 114514
+#define BOSS02_I 250
+#define BOSS02_MI 1000
+#define BOSS02_BV 1
+
+#define SENM_S 80
+#define SENM_M 1000
+#define SENM_V 0.02
+#define SENM_H 50
+#define SENM_A 2
+#define SENM_E 0
+#define SENM_I 250
+#define SENM_MI 1000
+#define SENM_BV 1
 
 const int levelUps[21] = {10, 20, 30, 40, 50, 70, 90, 110, 140, 170,
                           200, 240, 280, 320, 380, 440, 500, 600, 800, 1000, 1000};
