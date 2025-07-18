@@ -8,8 +8,12 @@
 #define ENM_SIZE 20
 #define BLT_SIZE 10
 
+#define EENM_SIZE 40
+
 #define ENM_RPS 1       // repulsion
 #define ENM_RPL 2000
+#define ENM_PRPS 10
+#define EENM_PRPS 30
 #define ENMB_CLR_RG 200 // enemy bullet clear range
 
 #define BLT_SPEED 10
@@ -27,13 +31,20 @@
 #define ENM02_E 2       // experience
 
 #define ENM03_M 3
-#define ENM03_V 5000    // velocity
+#define ENM03_V 3000    // velocity
 #define ENM03_H 3       // health
 #define ENM03_A 1       // attack
 #define ENM03_E 5       // experience
 #define ENM03_I 300     // interval
 #define ENM03_BV 3      // bullet velocity
 
+#define EENM01_M 10
+#define EENM01_V 5000    // velocity
+#define EENM01_H 3       // health
+#define EENM01_A 1       // attack
+#define EENM01_E 5       // experience
+#define EENM01_I 500     // interval
+#define EENM01_BV 2      // bullet velocity
 
 const int levelUps[21] = {10, 20, 30, 40, 50, 70, 90, 110, 140, 170,
                           200, 240, 280, 320, 380, 440, 500, 600, 800, 1000, 1000};

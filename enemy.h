@@ -54,7 +54,7 @@ public:
     Enemy01(QPointF _position);
 
     virtual void draw(QPainter &painter);
-    virtual void update(QPointF playPosition);
+    virtual void update(QPointF playerPosition);
     virtual std::vector<EnemyBullet*> shoot(QPointF playerPosition);
 
     virtual ~Enemy01();
@@ -65,7 +65,7 @@ public:
     Enemy02(QPointF _position);
 
     virtual void draw(QPainter &painter);
-    virtual void update(QPointF playPosition);
+    virtual void update(QPointF playerPosition);
     virtual std::vector<EnemyBullet*> shoot(QPointF playerPosition);
 
     virtual ~Enemy02();
@@ -76,12 +76,27 @@ public:
     Enemy03(QPointF _position);
 
     virtual void draw(QPainter &painter);
-    virtual void update(QPointF playPosition);
+    virtual void update(QPointF playerPosition);
     virtual std::vector<EnemyBullet*> shoot(QPointF playerPosition);
 
     virtual ~Enemy03();
 private:
     int interval;
 };
+
+class EliteEnemy01 : public Enemy {
+public:
+    EliteEnemy01(QPointF _position);
+
+    virtual void draw(QPainter &painter);
+    virtual void update(QPointF playerPosition);
+    virtual std::vector<EnemyBullet*> shoot(QPointF playerPosition);
+
+    virtual ~EliteEnemy01();
+private:
+    int interval;
+};
+
+
 
 #endif // ENEMY_H

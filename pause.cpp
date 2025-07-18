@@ -49,31 +49,15 @@ void Pause::keyPressEvent(QKeyEvent *event) {
         switch (event->key()) {
             case Qt::Key_1:
                 pressCode = 1;
-                if (player->getInterval() < 5) {
-                    player->addInterval();
-                    Widget::levelUp--;
-                }
                 break;
             case Qt::Key_2:
                 pressCode = 2;
-                if (player->getVelocity() < 5) {
-                    player->addVelocity();
-                    Widget::levelUp--;
-                }
                 break;
             case Qt::Key_3:
                 pressCode = 3;
-                if (player->getAttack() < 5) {
-                    player->addAttack();
-                    Widget::levelUp--;
-                }
                 break;
             case Qt::Key_4:
                 pressCode = 4;
-                if (player->getBulletSize() < 5) {
-                    player->addBulletSize();
-                    Widget::levelUp--;
-                }
                 break;
         }
     }
@@ -83,15 +67,31 @@ void Pause::keyReleaseEvent(QKeyEvent *event) {
     switch (event->key()) {
         case Qt::Key_1:
             pressCode = 0;
+            if (player->getInterval() < 5) {
+                player->addInterval();
+                Widget::levelUp--;
+            }
             break;
         case Qt::Key_2:
             pressCode = 0;
+            if (player->getVelocity() < 5) {
+                player->addVelocity();
+                Widget::levelUp--;
+            }
             break;
         case Qt::Key_3:
             pressCode = 0;
+            if (player->getAttack() < 5) {
+                player->addAttack();
+                Widget::levelUp--;
+            }
             break;
         case Qt::Key_4:
             pressCode = 0;
+            if (player->getBulletSize() < 5) {
+                player->addBulletSize();
+                Widget::levelUp--;
+            }
             break;
     }
 }

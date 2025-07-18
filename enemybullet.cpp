@@ -18,7 +18,7 @@ void EnemyBullet::update() {
 }
 
 bool EnemyBullet::isInScreen() {
-    return position.x() >= 0 && position.x() <= WIN_W && position.y() >= 0 && position.y() <= WIN_H;
+    return position.x() >= -WIN_W && position.x() <= WIN_W * 2 && position.y() >= -WIN_H && position.y() <= WIN_H * 2;
 }
 
 int EnemyBullet::getAttack() {

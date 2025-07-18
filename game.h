@@ -41,6 +41,16 @@ private:
     std::vector<PlayerBullet*> playerBulletArray;
     std::vector<EnemyBullet*> enemyBulletArray;
 
+
+    void playerShoot();
+    void generateEnemy();
+    void enemyRepulse();
+    void enemyShoot();
+    void checkCollision();
+    void deleteDeadEnemy();
+    void updateEverything();
+    void deleteOutScreenBullet();
+
     template<typename T1, typename T2>
     float dist(T1 a, T2 b);
 

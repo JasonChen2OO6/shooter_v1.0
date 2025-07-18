@@ -98,7 +98,7 @@ Enemy01::~Enemy01() {
 
 Enemy02::Enemy02(QPointF _position) :
     Enemy(_position, 0, ENM02_M, ENM02_V, ENM02_H, 0, ENM02_A, ENM02_E) {
-
+    qDebug() << "Generate Enemy2";
 }
 
 void Enemy02::draw(QPainter &painter) {
@@ -140,11 +140,16 @@ void Enemy03::draw(QPainter &painter) {
 void Enemy03::update(QPointF playerPosition) {
     ++life;
 
-    dx *= 0.8;
-    dy *= 0.8;
+    dx *= 0.85;
+    dy *= 0.85;
 
-    dx += (playerPosition.x() - position.x() - 300) / velocity;
-    dy += (playerPosition.y() - position.y() - 300) / velocity;
+    dx += (playerPosition.x() - position.x() - 100) / velocity;
+    dy += (playerPosition.y() - position.y() - 100) / velocity;
+
+    QPointF vec = position - playerPosition;
+    float r2 = (vec.x() * vec.x() + vec.y() * vec.y());
+    dx += ENM_PRPS * vec.x() / r2 / mass;
+    dy += ENM_PRPS * vec.y() / r2 / mass;
 
     position.rx() += dx;
     position.ry() += dy;
@@ -152,7 +157,7 @@ void Enemy03::update(QPointF playerPosition) {
 
 std::vector<EnemyBullet*> Enemy03::shoot(QPointF playerPosition) {
     std::vector<EnemyBullet*> newEnemyBullet;
-    if (life % 300 == 0) {
+    if (life % interval == 0) {
         newEnemyBullet.push_back(new EnemyBullet(position, atan2(playerPosition.y() - position.y(), playerPosition.x() - position.x()), ENM03_BV, attack));
         return newEnemyBullet;
     }
@@ -162,3 +167,48 @@ std::vector<EnemyBullet*> Enemy03::shoot(QPointF playerPosition) {
 Enemy03::~Enemy03() {
 
 }
+
+EliteEnemy01::EliteEnemy01(QPointF _position):
+    Enemy(_position, 0, EENM01_M, EENM01_V, EENM01_H, 0, EENM01_A, EENM01_E), interval(EENM01_I) {
+
+}
+
+void EliteEnemy01::draw(QPainter &painter) {
+    painter.setPen(Qt::darkYellow);
+    painter.drawEllipse(position.x() - EENM_SIZE / 2, position.y() - EENM_SIZE / 2, EENM_SIZE, EENM_SIZE);
+}
+
+void EliteEnemy01::update(QPointF playerPosition) {
+    ++life;
+
+    dx *= 0.8;
+    dy *= 0.8;
+
+    dx += (playerPosition.x() - position.x()) / velocity;
+    dy += (playerPosition.y() - position.y()) / velocity;
+
+    QPointF vec = position - playerPosition;
+    float r2 = (vec.x() * vec.x() + vec.y() * vec.y());
+    dx += EENM_PRPS * vec.x() / r2 / mass;
+    dy += EENM_PRPS * vec.y() / r2 / mass;
+
+    position.rx() += dx;
+    position.ry() += dy;
+}
+
+std::vector<EnemyBullet*> EliteEnemy01::shoot(QPointF playerPosition) {
+    std::vector<EnemyBullet*> newEnemyBullet;
+    if (life % interval == 0) {
+        float angle0 = (rand() % 360) / 180.0 * M_PI;
+        for (int i = 0; i < 16; i++)
+            newEnemyBullet.push_back(new EnemyBullet(position, angle0 + M_PI * 2 / 16 * i, EENM01_BV, attack));
+        return newEnemyBullet;
+    }
+    else return newEnemyBullet;
+}
+
+EliteEnemy01::~EliteEnemy01()
+{
+
+}
+

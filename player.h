@@ -21,8 +21,8 @@ public:
     void drawData(QPainter &painter);
     void update();
     std::vector<PlayerBullet*> shoot();
-    void addExperience(int _experience);
 
+    void addExperience(int _experience);
     int getExperience();
     QPointF getPosition();
 
@@ -43,6 +43,7 @@ public:
     void mouseMoveEvent(QMouseEvent *event);
 
     bool isAlive();
+    bool isInvincible();
     void hurt(int attack);
 
     void reset();
@@ -56,6 +57,8 @@ private:
     bool canShoot;
 
     int health;
+    int invincibleTime;
+    int restInvincibleTime;
     int experience;
     int level;
 

@@ -2,6 +2,7 @@
 
 #include "widget.h"
 
+
 Player::Player() {
     position = *new QPointF(WIN_W / 2, WIN_H / 2);
     angle = 0;
@@ -16,20 +17,23 @@ Player::Player() {
     canShoot = false;
 
     health = 10;
+    invincibleTime = 100;
+    restInvincibleTime = 0;
     experience = 0;
     level = 0;
 
     lastShoot = 100;
 
+
     interval = 1;
     velocity = 1;
     attack = 1;
-    bulletSize = 5;
+    bulletSize = 1;
 }
 
 void Player::draw(QPainter &painter) {
     painter.setPen(Qt::black);
-    painter.drawEllipse(position.x() - PLY_SIZE / 2, position.y() - PLY_SIZE / 2, PLY_SIZE, PLY_SIZE);
+    if (restInvincibleTime / 10 % 2 == 0) painter.drawEllipse(position.x() - PLY_SIZE / 2, position.y() - PLY_SIZE / 2, PLY_SIZE, PLY_SIZE);
     drawData(painter);
 }
 
@@ -43,6 +47,7 @@ void Player::drawData(QPainter &painter) {
     }
     painter.drawText(0, 40, WIN_W, 40, Qt::AlignLeft, "EXP: " + QString::number(experience) + " / " + QString::number(levelUps[level]));
     painter.drawText(0, 80, WIN_W, 40, Qt::AlignLeft, "LV: " + QString::number(level));
+
     painter.drawText(0, 120, WIN_W, 40, Qt::AlignLeft, "ITV: " + QString::number(interval));
     painter.drawText(0, 160, WIN_W, 40, Qt::AlignLeft, "VEL: " + QString::number(velocity));
     painter.drawText(0, 200, WIN_W, 40, Qt::AlignLeft, "ATK: " + QString::number(attack));
@@ -54,6 +59,8 @@ void Player::drawData(QPainter &painter) {
 }
 
 void Player::update() {
+    if (restInvincibleTime > 0) --restInvincibleTime;
+
     if (experience >= levelUps[level] && level < 10) {
         level++;
         Widget::levelUp++;
@@ -63,6 +70,7 @@ void Player::update() {
     dy *= 0.95;
 
     float div = sqrt(up + down + left + right);
+
 
     if (up) dy -= velocities[velocity] / div;
     if (down) dy += velocities[velocity] / div;
@@ -194,8 +202,14 @@ bool Player::isAlive() {
     return health > 0;
 }
 
+bool Player::isInvincible() {
+    return restInvincibleTime > 0;
+}
+
 void Player::hurt(int attack) {
+    if (restInvincibleTime > 0) return;
     health -= attack;
+    restInvincibleTime = invincibleTime;
 }
 
 void Player::reset() {
