@@ -64,9 +64,9 @@
 #define BOSS02_H 10000
 #define BOSS02_A 3
 #define BOSS02_E 114514
-#define BOSS02_I 250
+#define BOSS02_I 5
 #define BOSS02_MI 1000
-#define BOSS02_BV 1
+#define BOSS02_BV 3
 
 #define SENM_S 80
 #define SENM_M 1000

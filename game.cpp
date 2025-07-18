@@ -148,42 +148,45 @@ void Game::playerShoot()
 }
 
 void Game::generateEnemy() {
-//    float angle = (rand() % 360) / 180.0 * M_PI;
-//    boss02 = new Boss02(QPointF(player->getPosition().x() + WIN_W * cos(angle) * 0.2, player->getPosition().y() + WIN_W * sin(angle) * 0.2));
-//    if (timer % BOSS02_MI == 0) {
-//        for (int i = 0; i < 12; i++) {
-//            enemyArray.push_back(new SubEnemy(boss02->getPosition(), M_PI * 2 / 12 * i));
-//        }
+    float angle = (rand() % 360) / 180.0 * M_PI;
+    if (timer == 1) {
+        boss02 = new Boss02(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle)), player->getPosition());
+        enemyArray.push_back(boss02);
+    }
+    if (timer % BOSS02_MI == 1) {
+        for (int i = 0; i < 12; i++) {
+            enemyArray.push_back(new SubEnemy(boss02->getPosition(), M_PI * 2 / 12 * i));
+        }
+    }
+//    if (timer == 3000) {
+//        float angle = (rand() % 360) / 180.0 * M_PI;
+//        enemyArray.push_back(new Boss01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
 //    }
-    if (timer == 3000) {
-        float angle = (rand() % 360) / 180.0 * M_PI;
-        enemyArray.push_back(new Boss01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
-    }
-    if (timer % 200 == 0) {
-        float angle = (rand() % 360) / 180.0 * M_PI;
-        enemyArray.push_back(new Enemy01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
-    }
+//    if (timer % 200 == 0) {
+//        float angle = (rand() % 360) / 180.0 * M_PI;
+//        enemyArray.push_back(new Enemy01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
+//    }
 
-    if (timer > 1000 && timer % 300 == 0) {
-        float angle = (rand() % 360) / 180 * M_PI;
-        enemyArray.push_back(new Enemy02(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
-    }
+//    if (timer > 1000 && timer % 300 == 0) {
+//        float angle = (rand() % 360) / 180 * M_PI;
+//        enemyArray.push_back(new Enemy02(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
+//    }
 
-    if (timer > 2000 && timer % 800 == 0) {
-        float angle = (rand() % 360) / 180.0 * M_PI;
-        enemyArray.push_back(new Enemy03(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
+//    if (timer > 2000 && timer % 800 == 0) {
+//        float angle = (rand() % 360) / 180.0 * M_PI;
+//        enemyArray.push_back(new Enemy03(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
 
-    }
-    if (timer % 1000 == 0) {
-        float angle = (rand() % 360) / 180.0 * M_PI;
-        enemyArray.push_back(new EliteEnemy01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
+//    }
+//    if (timer % 1000 == 0) {
+//        float angle = (rand() % 360) / 180.0 * M_PI;
+//        enemyArray.push_back(new EliteEnemy01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
 
-    }
+//    }
 }
 
 void Game::enemyRepulse() {
     for (auto enemy : enemyArray) {
-        if (boss02 != nullptr) enemy->repulse(boss02->getPosition());
+//        if (boss02 != nullptr) enemy->repulse(boss02->getPosition());
         for (auto _enemy : enemyArray) {
             if (enemy == _enemy) continue;
             enemy->repulse(_enemy->getPosition());
@@ -292,6 +295,7 @@ void Game::deleteDeadEnemy() {
 
 void Game::updateEverything() {
     player->update();
+//    if (boss02 != nullptr) boss02->update(player->getPosition());
     for (auto bullet : playerBulletArray) bullet->update();
     for (auto bullet : enemyBulletArray) bullet->update();
     for (auto enemy : enemyArray) enemy->update(player->getPosition());

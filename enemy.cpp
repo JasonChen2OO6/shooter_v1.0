@@ -313,21 +313,56 @@ SubEnemy::~SubEnemy() {
 
 }
 
-Boss02::Boss02(QPointF _position):
-    Enemy(BOSS02_S, _position, 0, BOSS02_M, BOSS02_V, BOSS02_H, 0, BOSS02_A, BOSS02_E), interval(BOSS02_I), moveInterval(BOSS02_MI) {
+Boss02::Boss02(QPointF _position, QPointF playerPosition):
+    Enemy(BOSS02_S, _position, 0, BOSS02_M, BOSS02_V, BOSS02_H, 0, BOSS02_A, BOSS02_E), nextPosition(playerPosition), interval(BOSS02_I), moveInterval(BOSS02_MI) {
 
 }
 
 void Boss02::update(QPointF playerPosition) {
-
+    ++life;
+    if (life % moveInterval == 0) {
+        position = nextPosition;
+        nextPosition = playerPosition;
+    }
 }
 
 void Boss02::draw(QPainter &painter) {
+    painter.setPen(Qt::darkCyan);
+    float angle = (life / 50.0);
+    float sizeAngle = (life / 100.0);
+    painter.drawEllipse(position + QPointF(size * 0.4 * cos(angle               ), size * 0.4 * sin(angle               )) * sin(sizeAngle), size * 0.7, size * 0.7);
+    painter.drawEllipse(position + QPointF(size * 0.4 * cos(angle + M_PI * 2 / 3), size * 0.4 * sin(angle + M_PI * 2 / 3)) * sin(sizeAngle), size * 0.7, size * 0.7);
+    painter.drawEllipse(position + QPointF(size * 0.4 * cos(angle + M_PI * 4 / 3), size * 0.4 * sin(angle + M_PI * 4 / 3)) * sin(sizeAngle), size * 0.7, size * 0.7);
 
+    QPen pen = QPen(Qt::darkCyan);
+    pen.setWidth(3);
+    painter.setPen(pen);
+
+    float scale = (2 + sin(1.0 * life / 30.0) / 2);
+    painter.drawLine(nextPosition + QPointF(10, 0) * scale, nextPosition + QPointF(20, 0) * scale);
+    painter.drawLine(nextPosition + QPointF(-10, 0) * scale, nextPosition + QPointF(-20, 0) * scale);
+    painter.drawLine(nextPosition + QPointF(0, 10) * scale, nextPosition + QPointF(0, 20) * scale);
+    painter.drawLine(nextPosition + QPointF(0, -10) * scale, nextPosition + QPointF(0, -20) * scale);
+
+    QColor color = Qt::darkCyan;
+    color.setAlphaF(pow(1.0 * (life % moveInterval) / moveInterval, 3));
+    pen = QPen(color);
+    pen.setWidth(3);
+    painter.setPen(pen);
+    scale = (1 - pow(1.0 * (life % moveInterval)/ moveInterval, 3));
+    painter.drawEllipse(nextPosition, 100 * scale, 100 * scale);
+    painter.drawEllipse(nextPosition, 150 * scale, 150 * scale);
 }
 
 std::vector<EnemyBullet *> Boss02::shoot(QPointF playerPosition) {
-    return std::vector<EnemyBullet*>();
+    std::vector<EnemyBullet*> newBulletArray;
+    if (life % interval) return newBulletArray;
+    int count = 3 + life / moveInterval;
+    float angle0 = life / 1000.0;
+    for (int i = 0; i < count; i++) {
+        newBulletArray.push_back(new EnemyBullet(position, angle0 + M_PI * 2 / count * i, BOSS02_BV, attack));
+    }
+    return newBulletArray;
 }
 
 Boss02::~Boss02() {
