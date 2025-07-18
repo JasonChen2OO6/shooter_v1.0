@@ -31,6 +31,7 @@ void Game::draw(QPainter &painter) {
         for (auto enemy : enemyArray) {
             enemy->draw(painter);
         }
+
         for (auto bullet : enemyBulletArray) {
             bullet->draw(painter);
         }
@@ -276,6 +277,7 @@ bool Game::checkCollision(Player *player, Enemy *enemy) {
 
 
 bool Game::checkCollision(PlayerBullet *playerBullet, Enemy *enemy) {
+
     return dist(playerBullet, enemy) < bulletSizes[player->getBulletSize()] / 2 + ENM_SIZE / 2;
 }
 
