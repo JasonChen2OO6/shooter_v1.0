@@ -33,7 +33,16 @@ Player::Player() {
 
 void Player::draw(QPainter &painter) {
     painter.setPen(Qt::black);
-    if (restInvincibleTime / 10 % 2 == 0) painter.drawEllipse(position.x() - PLY_SIZE / 2, position.y() - PLY_SIZE / 2, PLY_SIZE, PLY_SIZE);
+    if (restInvincibleTime / 10 % 2 == 0) {
+        painter.drawEllipse(position.x() - PLY_SIZE / 2, position.y() - PLY_SIZE / 2, PLY_SIZE, PLY_SIZE);
+        QPointF triangle[3] = {
+            QPointF(position.x() + PLY_SIZE * 0.7 * cos(angle + 20 / 180.0 * M_PI), position.y() + PLY_SIZE * 0.7 * sin(angle + 20 / 180.0 * M_PI)),
+            QPointF(position.x() + PLY_SIZE * 0.9 * cos(angle                    ), position.y() + PLY_SIZE * 0.9 * sin(angle                    )),
+            QPointF(position.x() + PLY_SIZE * 0.7 * cos(angle - 20 / 180.0 * M_PI), position.y() + PLY_SIZE * 0.7 * sin(angle - 20 / 180.0 * M_PI)),
+
+        };
+        painter.drawPolygon(triangle, 3);
+    }
     drawData(painter);
 }
 
