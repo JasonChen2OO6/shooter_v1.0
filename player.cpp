@@ -17,18 +17,36 @@ Player::Player() {
     canShoot = false;
 
     health = 10;
-    invincibleTime = 100;
-    restInvincibleTime = 0;
     experience = 0;
     level = 0;
 
+
     lastShoot = 100;
+    restInvincibleTime = 0;
+    restAddHealthTime = 0;
+    restAddShieldTime = 0;
+    haveShield = false;
 
     interval = 1;
     velocity = 1;
     attack = 1;
     bulletSize = 1;
     repelForce = 1;
+
+    defeatEnemyCount = 0;
+
+    canSplash = true;
+    canBounce = false;
+    canRetard = false;
+    canTrace = false;
+    canPenetrate = true;
+    longerInvincible = false;
+    hurtInvicible = false;
+    addHealthByDefeat = false;
+    addHealthByTime = false;
+    addShieldByHurt = false;
+    addShieldByTime = true;
+    canPassWall = true;
 }
 
 void Player::draw(QPainter &painter) {
@@ -45,9 +63,15 @@ void Player::draw(QPainter &painter) {
     }
     if (isInvincible()) {
         QColor color = Qt::darkGray;
-        color.setAlphaF(1.0 * restInvincibleTime / invincibleTime);
+        if (!haveShield) color.setAlphaF(1.0 * restInvincibleTime / (longerInvincible ? MAX_IVCB_TIME : IVCB_TIME));
         painter.setPen(color);
-        int d = PLY_SIZE * 2 * (1 + pow(1.0 * restInvincibleTime / invincibleTime, 2));
+        int d = PLY_SIZE * 2 * (1 + pow(1.0 * restInvincibleTime / (longerInvincible ? MAX_IVCB_TIME : IVCB_TIME), 2));
+        painter.drawEllipse(position.x() - d / 2, position.y() - d / 2, d, d);
+        painter.drawEllipse(position.x() - d * 1.1 / 2, position.y() - d * 1.1 / 2, d * 1.1, d * 1.1);
+    } else if (haveShield) {
+        QColor color = Qt::darkGray;
+        painter.setPen(color);
+        int d = PLY_SIZE * 2;
         painter.drawEllipse(position.x() - d / 2, position.y() - d / 2, d, d);
         painter.drawEllipse(position.x() - d * 1.1 / 2, position.y() - d * 1.1 / 2, d * 1.1, d * 1.1);
     }
@@ -78,6 +102,8 @@ void Player::drawData(QPainter &painter) {
 
 void Player::update() {
     if (restInvincibleTime > 0) --restInvincibleTime;
+    if (addHealthByTime) --restAddHealthTime;
+    if (addShieldByTime && !haveShield) --restAddShieldTime;
 
     angle = atan2(float(mousePosition.y() - position.y()), float(mousePosition.x() - position.x()));
 
@@ -91,24 +117,47 @@ void Player::update() {
 
     float div = sqrt(up + down + left + right);
 
-
     if (up) dy -= velocities[velocity] / div;
     if (down) dy += velocities[velocity] / div;
     if (left) dx -= velocities[velocity] / div;
     if (right) dx += velocities[velocity] / div;
 
-    if (position.x() <= PLY_SIZE / 2 || position.x() >= WIN_W - PLY_SIZE / 2) dx = -dx;
-    if (position.y() <= PLY_SIZE / 2 || position.y() >= WIN_H - PLY_SIZE / 2) dy = -dy;
+    if (!canPassWall) {
+        if (position.x() <= PLY_SIZE / 2 || position.x() >= WIN_W - PLY_SIZE / 2) dx = -dx;
+        if (position.y() <= PLY_SIZE / 2 || position.y() >= WIN_H - PLY_SIZE / 2) dy = -dy;
+    } else {
+        if (position.x() <= PLY_SIZE / 2) position.rx() = WIN_W - PLY_SIZE / 2;
+        else if (position.x() >= WIN_W - PLY_SIZE / 2) position.rx() = PLY_SIZE / 2;
+        if (position.y() <= PLY_SIZE / 2) position.ry() = WIN_H - PLY_SIZE / 2;
+        else if (position.y() >= WIN_H - PLY_SIZE / 2) position.ry() = PLY_SIZE / 2;
+    }
 
     position.rx() += dx;
     position.ry() += dy;
 
-    position.rx() = std::min(position.x(), qreal(WIN_W - PLY_SIZE / 2));
-    position.rx() = std::max(position.x(), qreal(PLY_SIZE / 2));
-    position.ry() = std::min(position.y(), qreal(WIN_H - PLY_SIZE / 2));
-    position.ry() = std::max(position.y(), qreal(PLY_SIZE / 2));
+    if (!canPassWall) {
+        position.rx() = std::min(position.x(), qreal(WIN_W - PLY_SIZE / 2));
+        position.rx() = std::max(position.x(), qreal(PLY_SIZE / 2));
+        position.ry() = std::min(position.y(), qreal(WIN_H - PLY_SIZE / 2));
+        position.ry() = std::max(position.y(), qreal(PLY_SIZE / 2));
+    }
 
     lastShoot++;
+
+    if (addHealthByDefeat && defeatEnemyCount >= 50) {
+        defeatEnemyCount -= 50;
+        ++health;
+    }
+
+    if (addHealthByTime && restAddHealthTime <= 0) {
+        restAddHealthTime = 3000;
+        ++health;
+    }
+
+    if (addShieldByTime && restAddShieldTime <= 0 && !haveShield) {
+        restAddShieldTime = 2000;
+        haveShield = true;
+    }
 }
 
 std::vector<PlayerBullet*> Player::shoot() {
@@ -116,7 +165,12 @@ std::vector<PlayerBullet*> Player::shoot() {
     shootBulletArray.clear();
 
     if (canShoot && lastShoot >= intervals[interval]) {
-        shootBulletArray.push_back(new PlayerBullet(position, angle, BLT_SPEED, attacks[attack], bulletSizes[bulletSize]));
+        if (canBounce) {
+            shootBulletArray.push_back(new PlayerBullet(position, angle, BLT_SPEED, attacks[attack], bulletSizes[bulletSize], MAX_BNC_TIME));
+        } else {
+            shootBulletArray.push_back(new PlayerBullet(position, angle, BLT_SPEED, attacks[attack], bulletSizes[bulletSize], 0));
+        }
+
         lastShoot = 0;
     }
 
@@ -237,7 +291,24 @@ bool Player::isInvincible() {
 void Player::hurt(int attack) {
     if (restInvincibleTime > 0) return;
     health -= attack;
-    restInvincibleTime = invincibleTime;
+    if (longerInvincible) restInvincibleTime = MAX_IVCB_TIME;
+    else restInvincibleTime = IVCB_TIME;
+}
+
+void Player::addDefeatEnemy() {
+    ++defeatEnemyCount;
+}
+
+void Player::addShield() {
+    haveShield = true;
+}
+
+void Player::removeShield() {
+    haveShield = false;
+}
+
+bool Player::getHaveShield() {
+    return haveShield;
 }
 
 void Player::reset() {
@@ -245,5 +316,53 @@ void Player::reset() {
     down = 0;
     left = 0;
     right = 0;
+}
+
+bool Player::getCanSplash() {
+    return canSplash;
+}
+
+bool Player::getCanBounce() {
+    return canBounce;
+}
+
+bool Player::getCanRetard() {
+    return canRetard;
+}
+
+bool Player::getCanTrace() {
+    return canTrace;
+}
+
+bool Player::getCanPenetrate() {
+    return canPenetrate;
+}
+
+bool Player::getLongerInvincible() {
+    return longerInvincible;
+}
+
+bool Player::getHurtInvicible() {
+    return hurtInvicible;
+}
+
+bool Player::getAddHealthByDefeat() {
+    return addHealthByDefeat;
+}
+
+bool Player::getAddHealthByTime() {
+    return addHealthByTime;
+}
+
+bool Player::getAddShieldByHurt() {
+    return addShieldByHurt;
+}
+
+bool Player::getAddShieldByTime() {
+    return addShieldByTime;
+}
+
+bool Player::getCanPassWall() {
+    return canPassWall;
 }
 

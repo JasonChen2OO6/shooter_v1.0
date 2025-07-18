@@ -14,6 +14,7 @@ Enemy::Enemy(QPointF _position, float _angle, float _mass, float _velocity,
     attack = _attack;
     experience = _experience;
     life = 0;
+    restRetardTime = 0;
 }
 
 //std::vector<EnemyBullet> Enemy::shoot() {
@@ -58,8 +59,9 @@ bool Enemy::isAlive() {
     return health > 0;
 }
 
-void Enemy::hurt(int attack) {
+void Enemy::hurt(int attack, bool isRetard) {
     health -= attack;
+    if (isRetard) restRetardTime = MAX_RTD_TIME;
 }
 
 Enemy::~Enemy() {
@@ -84,8 +86,14 @@ void Enemy01::update(QPointF playerPosition) {
     dx += (playerPosition.x() - position.x()) / velocity;
     dy += (playerPosition.y() - position.y()) / velocity;
 
-    position.rx() += dx;
-    position.ry() += dy;
+    if (restRetardTime > 0) {
+        --restRetardTime;
+        position.rx() += dx * RTD_RATE;
+        position.ry() += dy * RTD_RATE;
+    } else {
+        position.rx() += dx;
+        position.ry() += dy;
+    }
 }
 
 std::vector<EnemyBullet*> Enemy01::shoot(QPointF playerPosition) {

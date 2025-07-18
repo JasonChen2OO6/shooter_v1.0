@@ -4,19 +4,18 @@
 #define WIN_W 1280
 #define WIN_H 960
 
+#define BLT_SPEED 10
+
 #define PLY_SIZE 40
 #define ENM_SIZE 20
+#define EENM_SIZE 40
 #define BLT_SIZE 10
 #define PTC_SIZE 10
-
-#define EENM_SIZE 40
 
 #define ENM_RPS 1       // repulsion
 #define ENM_PRPS 10
 #define EENM_PRPS 30
 #define ENMB_CLR_RG 200 // enemy bullet clear range
-
-#define BLT_SPEED 10
 
 #define ENM01_M 1.5
 #define ENM01_V 2000    // velocity
@@ -45,6 +44,13 @@
 #define EENM01_E 5       // experience
 #define EENM01_I 500     // interval
 #define EENM01_BV 2      // bullet velocity
+
+#define IVCB_TIME 100    //invincible time
+#define SPLSH_RG 150     // splash range
+#define MAX_BNC_TIME 4   // max bounce time
+#define MAX_RTD_TIME 400 // max retard time
+#define RTD_RATE 0.5     // retard rate
+#define MAX_IVCB_TIME 400// max invincible time
 
 const int levelUps[21] = {10, 20, 30, 40, 50, 70, 90, 110, 140, 170,
                           200, 240, 280, 320, 380, 440, 500, 600, 800, 1000, 1000};

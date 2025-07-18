@@ -27,7 +27,7 @@ public:
     void repel(QPointF playerPosition, int repelForce);
     void repulse(QPointF enemyPosition);
     bool isAlive();
-    void hurt(int attack);
+    void hurt(int attack, bool isRetard);
 
     virtual ~Enemy();
 
@@ -47,6 +47,8 @@ protected:
     int experience;
 
     int life;
+
+    int restRetardTime;
 };
 
 class Enemy01 : public Enemy {

@@ -47,8 +47,24 @@ public:
     bool isAlive();
     bool isInvincible();
     void hurt(int attack);
-
+    void addDefeatEnemy();
+    void addShield();
+    void removeShield();
+    bool getHaveShield();
     void reset();
+
+    bool getCanSplash();
+    bool getCanBounce();
+    bool getCanRetard();
+    bool getCanTrace();
+    bool getCanPenetrate();
+    bool getLongerInvincible();
+    bool getHurtInvicible();
+    bool getAddHealthByDefeat();
+    bool getAddHealthByTime();
+    bool getAddShieldByHurt();
+    bool getAddShieldByTime();
+    bool getCanPassWall();
 
 private:
     QPointF position;
@@ -60,18 +76,35 @@ private:
     bool canShoot;
 
     int health;
-    int invincibleTime;
-    int restInvincibleTime;
     int experience;
     int level;
 
     int lastShoot;
+    int restInvincibleTime;
+    int restAddHealthTime;
+    int restAddShieldTime;
+    bool haveShield;
 
     int interval;
     int velocity;
     int attack;
     int bulletSize;
     int repelForce;
+
+    int defeatEnemyCount;
+
+    bool canSplash;
+    bool canBounce;
+    bool canRetard;
+    bool canTrace;
+    bool canPenetrate;
+    bool longerInvincible;
+    bool hurtInvicible;
+    bool addHealthByDefeat;
+    bool addHealthByTime;
+    bool addShieldByHurt;
+    bool addShieldByTime;
+    bool canPassWall;
 };
 
 #endif // PLAYER_H

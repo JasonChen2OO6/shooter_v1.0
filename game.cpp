@@ -187,16 +187,31 @@ void Game::enemyShoot() {
 void Game::checkCollision() {
     for (auto it = playerBulletArray.begin(); it != playerBulletArray.end();) {
         bool flag = false;
+        std::vector<Enemy*> lastCollidEnemyArray;
         for (auto enemy : enemyArray) {
             if (enemy->isAlive() && checkCollision(*it, enemy)) {
                 flag = true;
-                enemy->hurt((*it)->getAttack());
-                enemy->repel(player->getPosition(), repelForces[player->getRepelForce()] * 15);
-                break;
+                if (!(*it)->checkEnemy(enemy)) {
+                    if (player->getCanSplash()) {
+                        for (auto _enemy : enemyArray) {
+                            if (dist(_enemy, enemy) < SPLSH_RG + ENM_SIZE) {
+                                explosionArray.push_back(new Explosion(_enemy->getPosition(), 4, (*it)->getAttack() * 5));
+                                _enemy->hurt((*it)->getAttack(), player->getCanRetard());
+                                _enemy->repel(player->getPosition(), repelForces[player->getRepelForce()] * 15);
+                            }
+                        }
+                    } else {
+                        explosionArray.push_back(new Explosion(enemy->getPosition(), 4, (*it)->getAttack() * 5));
+                        enemy->hurt((*it)->getAttack(), player->getCanRetard());
+                        enemy->repel(player->getPosition(), repelForces[player->getRepelForce()] * 15);
+                    }
+                }
+                lastCollidEnemyArray.push_back(enemy);
+                if (!player->getCanPenetrate()) break;
             }
         }
-        if (flag) {
-            explosionArray.push_back(new Explosion((*it)->getPosition(), 4, (*it)->getAttack() * 5));
+        (*it)->updateEnemyArray(lastCollidEnemyArray);
+        if (flag && !player->getCanPenetrate()) {
             delete *it;
             it = playerBulletArray.erase(it);
         }
@@ -207,9 +222,13 @@ void Game::checkCollision() {
     for (auto enemy : enemyArray) {
         if (enemy->isAlive() && checkCollision(player, enemy)) {
             flag = true;
-            player->hurt(enemy->getAttack());
-            if (!player->isInvincible()) {
-                enemy->hurt(player->getAttack());
+            if (player->getHaveShield()) player->removeShield();
+            else {
+                player->hurt(enemy->getAttack());
+                if (player->getAddShieldByHurt()) player->addShield();
+            }
+            if (!player->isInvincible() || player->getHurtInvicible()) {
+                enemy->hurt(player->getAttack(), false);
             }
         }
     }
@@ -217,7 +236,11 @@ void Game::checkCollision() {
     for (auto it = enemyBulletArray.begin(); it != enemyBulletArray.end();) {
         if (checkCollision(player, *it)) {
             flag = true;
-            player->hurt((*it)->getAttack());
+            if (player->getHaveShield()) player->removeShield();
+            else {
+                player->hurt((*it)->getAttack());
+                if (player->getAddShieldByHurt()) player->addShield();
+            };
             delete *it;
             it = enemyBulletArray.erase(it);
         }
@@ -244,6 +267,7 @@ void Game::deleteDeadEnemy() {
         if (!(*it)->isAlive()) {
             player->addExperience((*it)->getExperience());
             delete *it;
+            if (player->getAddHealthByDefeat()) player->addDefeatEnemy();
             it = enemyArray.erase(it);
         }
         else ++it;
