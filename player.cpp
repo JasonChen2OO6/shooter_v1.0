@@ -43,6 +43,14 @@ void Player::draw(QPainter &painter) {
         };
         painter.drawPolygon(triangle, 3);
     }
+    if (isInvincible()) {
+        QColor color = Qt::darkGray;
+        color.setAlphaF(1.0 * restInvincibleTime / invincibleTime);
+        painter.setPen(color);
+        int d = PLY_SIZE * 2 * (1 + pow(1.0 * restInvincibleTime / invincibleTime, 2));
+        painter.drawEllipse(position.x() - d / 2, position.y() - d / 2, d, d);
+        painter.drawEllipse(position.x() - d * 1.1 / 2, position.y() - d * 1.1 / 2, d * 1.1, d * 1.1);
+    }
     drawData(painter);
 }
 
