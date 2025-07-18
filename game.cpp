@@ -243,7 +243,7 @@ void Game::checkCollision() {
                 player->hurt(enemy->getAttack());
                 if (player->getAddShieldByHurt()) player->addShield();
             }
-            if (!player->isInvincible() || player->getHurtInvicible()) {
+            if (!player->isInvincible() || player->getHurtInvincible()) {
                 enemy->hurt(player->getAttack(), false);
             }
         }

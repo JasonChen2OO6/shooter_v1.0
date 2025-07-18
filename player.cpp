@@ -35,16 +35,15 @@ Player::Player() {
 
     defeatEnemyCount = 0;
 
-    canSplash = true;
+    canSplash = false;
     canBounce = false;
-    canRetard = true;
-    canTrace = false;
-    canPenetrate = true;
+    canRetard = false;
+    canPenetrate = false;
     longerInvincible = false;
     hurtInvicible = false;
     addHealthByDefeat = false;
     addHealthByTime = false;
-    addShieldByHurt = true;
+    addShieldByHurt = false;
     addShieldByTime = false;
     canPassWall = true;
 }
@@ -209,6 +208,10 @@ int Player::getRepelForce() {
     return repelForce;
 }
 
+int Player::getLevel() {
+    return level;
+}
+
 void Player::addInterval() {
     interval++;
 }
@@ -227,6 +230,10 @@ void Player::addBulletSize() {
 
 void Player::addRepelForce() {
     repelForce++;
+}
+
+void Player::addHealth(int point) {
+    health += point;
 }
 
 void Player::keyPressEvent(QKeyEvent *event) {
@@ -330,10 +337,6 @@ bool Player::getCanRetard() {
     return canRetard;
 }
 
-bool Player::getCanTrace() {
-    return canTrace;
-}
-
 bool Player::getCanPenetrate() {
     return canPenetrate;
 }
@@ -342,7 +345,7 @@ bool Player::getLongerInvincible() {
     return longerInvincible;
 }
 
-bool Player::getHurtInvicible() {
+bool Player::getHurtInvincible() {
     return hurtInvicible;
 }
 
@@ -364,5 +367,49 @@ bool Player::getAddShieldByTime() {
 
 bool Player::getCanPassWall() {
     return canPassWall;
+}
+
+void Player::setCanSplash() {
+    canSplash = true;
+}
+
+void Player::setCanBounce() {
+    canBounce = true;
+}
+
+void Player::setCanRetard() {
+    canRetard = true;
+}
+
+void Player::setCanPenetrate() {
+    canPenetrate = true;
+}
+
+void Player::setLongerInvincible() {
+    longerInvincible = true;
+}
+
+void Player::setHurtInvincible() {
+    hurtInvicible = true;
+}
+
+void Player::setAddHealthByDefeat() {
+    addHealthByDefeat = true;
+}
+
+void Player::setAddHealthByTime() {
+    addHealthByTime = true;
+}
+
+void Player::setAddShieldByHurt() {
+    addShieldByHurt = true;
+}
+
+void Player::setAddShieldByTime() {
+    addShieldByTime = true;
+}
+
+void Player::setCanPassWall() {
+    canPassWall = true;
 }
 

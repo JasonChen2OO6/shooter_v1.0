@@ -21,6 +21,11 @@ public:
 private:
     Player *player;
 
+    int id1, id2, id3;
+    void getId();
+    void printData(int x, int y, int w, int h, QPainter &painter, int id);
+    void printData2(int x, int y, int w, int h, QPainter &painter, int id);
+
     int pressCode;
 };
 
