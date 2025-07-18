@@ -35,8 +35,12 @@ private:
     std::vector<PlayerBullet*> playerBulletArray;
     std::vector<EnemyBullet*> enemyBulletArray;
 
+    template<typename T1, typename T2>
+    float dist(T1 a, T2 b);
+
     bool checkCollision(Player *player, Enemy *enemy);
     bool checkCollision(PlayerBullet *playerBullet, Enemy *enemy);
+    bool checkCollision(Player *player, EnemyBullet *enemyBullet);
 
 };
 

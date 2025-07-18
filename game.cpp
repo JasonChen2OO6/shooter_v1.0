@@ -26,6 +26,10 @@ void Game::draw(QPainter &painter) {
     for (auto enemy : enemyArray) {
         enemy->draw(painter);
     }
+
+    for (auto bullet : enemyBulletArray) {
+        bullet->draw(painter);
+    }
 }
 
 void Game::update() {
@@ -50,18 +54,38 @@ void Game::update() {
 
     if (timer % 100 == 0) {
         float angle = (rand() % 360) / 180.0 * M_PI;
-        enemyArray.push_back(new Enemy01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W* sin(angle))));
+        enemyArray.push_back(new Enemy01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
+    }
+
+    if (timer > 1000 &&  timer % 300 == 0) {
+        float angle = (rand() % 360) / 180 * M_PI;
+        enemyArray.push_back(new Enemy02(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
+    }
+
+    if (timer > 2000 && timer % 800 == 0) {
+        float angle = (rand() % 360) / 180.0 * M_PI;
+        enemyArray.push_back(new Enemy03(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
+
     }
 
     for (auto enemy : enemyArray) {
         for (auto _enemy : enemyArray) {
             if (enemy == _enemy) continue;
-            enemy->repel(_enemy->getPosition());
+            enemy->repulse(_enemy->getPosition());
         }
     }
 
     for (auto enemy : enemyArray) {
         enemy->update(player->getPosition());
+    }
+
+    for (auto enemy : enemyArray) {
+        auto newBulletArray = enemy->shoot(player->getPosition());
+        enemyBulletArray.insert(enemyBulletArray.end(), newBulletArray.begin(), newBulletArray.end());
+    }
+
+    for (auto bullet : enemyBulletArray) {
+        bullet->update();
     }
 
     for (auto it = playerBulletArray.begin(); it != playerBulletArray.end();) {
@@ -88,17 +112,38 @@ void Game::update() {
         else ++it;
     }
 
+    bool flag = false;
     for (auto it = enemyArray.begin(); it != enemyArray.end();) {
-        bool flag = false;
         if (checkCollision(player, *it)) {
             flag = true;
-            player->hurt(1);
-        }
-        if (flag) {
+            player->hurt((*it)->getAttack());
             delete *it;
             it = enemyArray.erase(it);
         }
         else ++it;
+    }
+
+    for (auto it = enemyBulletArray.begin(); it != enemyBulletArray.end();) {
+        if (checkCollision(player, *it)) {
+            flag = true;
+            player->hurt((*it)->getAttack());
+            delete *it;
+            it = enemyBulletArray.erase(it);
+        }
+        else ++it;
+    }
+
+    if (flag) {
+        for (auto enemy : enemyArray) {
+            enemy->repel(player->getPosition());
+        }
+        for (auto it = enemyBulletArray.begin(); it != enemyBulletArray.end();) {
+            if (dist(player, *it) < ENMB_CLR_RG) {
+                delete *it;
+                it = enemyBulletArray.erase(it);
+            }
+            else ++it;
+        }
     }
 
     if (!player->isAlive()) {
@@ -140,16 +185,21 @@ int Game::getExperience() {
     return player->getExperience();
 }
 
-bool Game::checkCollision(Player *player, Enemy *enemy)
-{
-    QPointF vec = player->getPosition() - enemy->getPosition();
-    float r = sqrt(vec.x() * vec.x() + vec.y() * vec.y());
-    return r < PLY_SIZE / 2 + ENM_SIZE / 2;
+bool Game::checkCollision(Player *player, Enemy *enemy) {
+    return dist(player, enemy) < PLY_SIZE / 2 + ENM_SIZE / 2;
 }
 
-bool Game::checkCollision(PlayerBullet *playerBullet, Enemy *enemy)
-{
-    QPointF vec = playerBullet->getPosition() - enemy->getPosition();
-    float r = sqrt(vec.x() * vec.x() + vec.y() * vec.y());
-    return r < BLT_SIZE / 2 + ENM_SIZE / 2;
+bool Game::checkCollision(PlayerBullet *playerBullet, Enemy *enemy) {
+    return dist(playerBullet, enemy) < BLT_SIZE / 2 + ENM_SIZE / 2;
+}
+
+bool Game::checkCollision(Player *player, EnemyBullet *enemyBullet) {
+    return dist(player, enemyBullet) < ENM_SIZE / 2 + BLT_SIZE / 2;
+}
+
+template<typename T1, typename T2>
+float Game::dist(T1 a, T2 b) {
+    QPointF vec = a->getPosition() - b->getPosition();
+    return sqrt(vec.x() * vec.x() + vec.y() * vec.y());
+
 }
