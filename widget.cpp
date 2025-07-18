@@ -73,7 +73,7 @@ void Widget::keyReleaseEvent(QKeyEvent *event) {
             game->keyReleaseEvent(event);
             break;
         case 2:
-            over->keyPressEvent(event);
+            over->keyReleaseEvent(event);
             break;
     }
 }
@@ -105,5 +105,5 @@ void Widget::init() {
 }
 
 int Widget::status = 0;
-int Widget::levelUp = 0;
+int Widget::levelUp = 10;
 int Widget::experience = 0;

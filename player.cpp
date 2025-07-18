@@ -2,11 +2,6 @@
 
 #include "widget.h"
 
-const int levelUps[21] = {10, 20, 30, 40, 50, 70, 90, 110, 140, 170,
-                          200, 240, 280, 320, 380, 440, 500, 600, 800, 1000, 1000};
-
-
-
 
 Player::Player() {
     position = *new QPointF(WIN_W / 2, WIN_H / 2);
@@ -29,8 +24,9 @@ Player::Player() {
 
     lastShoot = 100;
 
-    interval = 100;
-    velocity = 0.2;
+
+    interval = 1;
+    velocity = 1;
     attack = 1;
     bulletSize = 1;
 }
@@ -51,9 +47,11 @@ void Player::drawData(QPainter &painter) {
     }
     painter.drawText(0, 40, WIN_W, 40, Qt::AlignLeft, "EXP: " + QString::number(experience) + " / " + QString::number(levelUps[level]));
     painter.drawText(0, 80, WIN_W, 40, Qt::AlignLeft, "LV: " + QString::number(level));
-    painter.drawText(0, 120, WIN_W, 40, Qt::AlignLeft, "VEL: " + QString::number(velocity));
-    painter.drawText(0, 160, WIN_W, 40, Qt::AlignLeft, "ATK: " + QString::number(attack));
-    painter.drawText(0, 200, WIN_W, 40, Qt::AlignLeft, "BLTSIZE: " + QString::number(bulletSize));
+
+    painter.drawText(0, 120, WIN_W, 40, Qt::AlignLeft, "ITV: " + QString::number(interval));
+    painter.drawText(0, 160, WIN_W, 40, Qt::AlignLeft, "VEL: " + QString::number(velocity));
+    painter.drawText(0, 200, WIN_W, 40, Qt::AlignLeft, "ATK: " + QString::number(attack));
+    painter.drawText(0, 240, WIN_W, 40, Qt::AlignLeft, "BLTSIZE: " + QString::number(bulletSize));
 
     if (Widget::levelUp > 0) {
         painter.drawText(0, 0, WIN_W, 40, Qt::AlignRight, "LEVEL UP!");
@@ -73,10 +71,11 @@ void Player::update() {
 
     float div = sqrt(up + down + left + right);
 
-    if (up) dy -= velocity / div;
-    if (down) dy += velocity / div;
-    if (left) dx -= velocity / div;
-    if (right) dx += velocity / div;
+
+    if (up) dy -= velocities[velocity] / div;
+    if (down) dy += velocities[velocity] / div;
+    if (left) dx -= velocities[velocity] / div;
+    if (right) dx += velocities[velocity] / div;
 
     if (position.x() <= PLY_SIZE / 2 || position.x() >= WIN_W - PLY_SIZE / 2) dx = -dx;
     if (position.y() <= PLY_SIZE / 2 || position.y() >= WIN_H - PLY_SIZE / 2) dy = -dy;
@@ -96,8 +95,8 @@ std::vector<PlayerBullet*> Player::shoot() {
     std::vector<PlayerBullet*> shootBulletArray;
     shootBulletArray.clear();
 
-    if (canShoot && lastShoot >= interval) {
-        shootBulletArray.push_back(new PlayerBullet(position, angle, BLT_SPEED, attack, bulletSize));
+    if (canShoot && lastShoot >= intervals[interval]) {
+        shootBulletArray.push_back(new PlayerBullet(position, angle, BLT_SPEED, attacks[attack], bulletSizes[bulletSize]));
         lastShoot = 0;
     }
 
@@ -116,12 +115,36 @@ QPointF Player::getPosition() {
     return position;
 }
 
+int Player::getInterval() {
+    return interval;
+}
+
+int Player::getVelocity() {
+    return velocity;
+}
+
+int Player::getAttack() {
+    return attack;
+}
+
 int Player::getBulletSize() {
     return bulletSize;
 }
 
-int Player::getAttack() {
-    return restInvincibleTime > 0 ? 0 : attack;
+void Player::addInterval() {
+    interval++;
+}
+
+void Player::addVelocity() {
+    velocity++;
+}
+
+void Player::addAttack() {
+    attack++;
+}
+
+void Player::addBulletSize() {
+    bulletSize++;
 }
 
 void Player::keyPressEvent(QKeyEvent *event) {
@@ -177,6 +200,10 @@ void Player::mouseMoveEvent(QMouseEvent *event) {
 
 bool Player::isAlive() {
     return health > 0;
+}
+
+bool Player::isInvincible() {
+    return restInvincibleTime > 0;
 }
 
 void Player::hurt(int attack) {

@@ -21,12 +21,20 @@ public:
     void drawData(QPainter &painter);
     void update();
     std::vector<PlayerBullet*> shoot();
-    void addExperience(int _experience);
 
+    void addExperience(int _experience);
     int getExperience();
     QPointF getPosition();
-    int getBulletSize();
+
+    int getInterval();
+    int getVelocity();
     int getAttack();
+    int getBulletSize();
+
+    void addInterval();
+    void addVelocity();
+    void addAttack();
+    void addBulletSize();
 
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
@@ -35,6 +43,7 @@ public:
     void mouseMoveEvent(QMouseEvent *event);
 
     bool isAlive();
+    bool isInvincible();
     void hurt(int attack);
 
     void reset();
@@ -56,7 +65,7 @@ private:
     int lastShoot;
 
     int interval;
-    float velocity;
+    int velocity;
     int attack;
     int bulletSize;
 };

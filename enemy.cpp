@@ -98,7 +98,7 @@ Enemy01::~Enemy01() {
 
 Enemy02::Enemy02(QPointF _position) :
     Enemy(_position, 0, ENM02_M, ENM02_V, ENM02_H, 0, ENM02_A, ENM02_E) {
-
+    qDebug() << "Generate Enemy2";
 }
 
 void Enemy02::draw(QPainter &painter) {
@@ -111,6 +111,9 @@ void Enemy02::update(QPointF playerPosition) {
 
     dx *= 0.9;
     dy *= 0.9;
+
+    dx += (playerPosition.x() - position.x()) / velocity * (sin(life / 30.0) + 1);
+    dy += (playerPosition.y() - position.y()) / velocity * (sin(life / 30.0) + 1);
 
     position.rx() += dx;
     position.ry() += dy;

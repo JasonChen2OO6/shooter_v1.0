@@ -57,6 +57,8 @@ void Game::update() {
 
         deleteOutScreenBullet();
 
+        Widget::experience = getExperience();
+
         if (!player->isAlive()) {
             Widget::status = 2;
         }
@@ -66,26 +68,34 @@ void Game::update() {
 void Game::keyPressEvent(QKeyEvent *event) {
     player->keyPressEvent(event);
 
+    if (event->isAutoRepeat()) return;
+
     int keyCode = event->key();
     if (status == 0 && keyCode == Qt::Key_Escape) {
           qDebug() << keyCode;
           status = 1;
           player->reset();
-    }
-    if (status == 1 && keyCode == Qt::Key_Space) {
-          qDebug() << keyCode;
-          status = 0;
-    }
-    if (status == 1 && keyCode == Qt::Key_R) {
-          qDebug() << keyCode;
-          Widget::status = 0;
-          Widget::levelUp = 0;
-          Widget::experience = 0;
+    } else if (status == 1) {
+        pause->keyPressEvent(event);
+        if (keyCode == Qt::Key_Escape) {
+              qDebug() << keyCode;
+              status = 0;
+        }
+        if (keyCode == Qt::Key_R) {
+              qDebug() << keyCode;
+              Widget::status = 0;
+              Widget::levelUp = 0;
+              Widget::experience = 0;
+        }
     }
 }
 
 void Game::keyReleaseEvent(QKeyEvent *event) {
     player->keyReleaseEvent(event);
+
+    if (status == 1) {
+        pause->keyReleaseEvent(event);
+    }
 }
 
 void Game::mousePressEvent(QMouseEvent *event) {
@@ -135,7 +145,7 @@ void Game::generateEnemy() {
         enemyArray.push_back(new Enemy01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
     }
 
-    if (timer > 1000 &&  timer % 300 == 0) {
+    if (timer > 1000 && timer % 300 == 0) {
         float angle = (rand() % 360) / 180 * M_PI;
         enemyArray.push_back(new Enemy02(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
     }
@@ -191,10 +201,11 @@ void Game::checkCollision() {
         if (enemy->isAlive() && checkCollision(player, enemy)) {
             flag = true;
             player->hurt(enemy->getAttack());
-            enemy->hurt(player->getAttack());
+            if (!player->isInvincible()) {
+                enemy->hurt(player->getAttack());
+            }
         }
     }
-
 
     for (auto it = enemyBulletArray.begin(); it != enemyBulletArray.end();) {
         if (checkCollision(player, *it)) {
@@ -224,6 +235,7 @@ void Game::checkCollision() {
 void Game::deleteDeadEnemy() {
     for (auto it = enemyArray.begin(); it != enemyArray.end();) {
         if (!(*it)->isAlive()) {
+            player->addExperience((*it)->getExperience());
             delete *it;
             it = enemyArray.erase(it);
         }
@@ -265,7 +277,7 @@ bool Game::checkCollision(Player *player, Enemy *enemy) {
 
 
 bool Game::checkCollision(PlayerBullet *playerBullet, Enemy *enemy) {
-    return dist(playerBullet, enemy) < BLT_SIZE / 2 + ENM_SIZE / 2;
+    return dist(playerBullet, enemy) < player->getBulletSize() / 2 + ENM_SIZE / 2;
 }
 
 bool Game::checkCollision(Player *player, EnemyBullet *enemyBullet) {
@@ -276,5 +288,4 @@ template<typename T1, typename T2>
 float Game::dist(T1 a, T2 b) {
     QPointF vec = a->getPosition() - b->getPosition();
     return sqrt(vec.x() * vec.x() + vec.y() * vec.y());
-
 }

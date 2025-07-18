@@ -11,8 +11,7 @@ PlayerBullet::PlayerBullet(QPointF _position, float _angle, float _velocity, int
 
 void PlayerBullet::draw(QPainter &painter) {
     painter.setPen(Qt::black);
-    painter.drawEllipse(position.x() - BLT_SIZE * bulletSize / 2, position.y() - BLT_SIZE * bulletSize / 2,
-                        BLT_SIZE * bulletSize, BLT_SIZE * bulletSize);
+    painter.drawEllipse(position.x() - bulletSize / 2, position.y() - bulletSize / 2, bulletSize, bulletSize);
 }
 
 void PlayerBullet::update() {

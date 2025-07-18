@@ -46,4 +46,16 @@
 #define EENM01_I 500     // interval
 #define EENM01_BV 2      // bullet velocity
 
+const int levelUps[21] = {10, 20, 30, 40, 50, 70, 90, 110, 140, 170,
+                          200, 240, 280, 320, 380, 440, 500, 600, 800, 1000, 1000};
+
+const int intervals[6] = {100, 100, 80, 60, 40, 20};
+
+const float velocities[6] = {0.2, 0.2, 0.4, 0.6, 0.8, 1};
+
+const int attacks[6] = {1, 1, 2, 3, 4, 5};
+
+const int bulletSizes[6] = {10, 10, 15, 20, 25, 30};
+
+
 #endif // CONFIG_H

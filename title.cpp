@@ -8,10 +8,10 @@ Title::Title() {
 void Title::draw(QPainter &painter) {
     painter.setPen(Qt::blue);
     painter.setFont(QFont("Arial", 20));
-    painter.drawText(WIN_W / 2 - 400, WIN_H / 2 - 200, 800, 200, Qt::AlignCenter, "SHOOTER!");
+    painter.drawText(WIN_W / 2 - 400, WIN_H / 2 - 200, 800, 100, Qt::AlignCenter, "SHOOTER!");
 
     painter.setFont(QFont("Arial", 10));
-    painter.drawText(WIN_W / 2 - 400, WIN_H / 2 - 100, 800, 200, Qt::AlignCenter, "Press SPACE to start");
+    painter.drawText(WIN_W / 2 - 400, WIN_H / 2 - 100, 800, 50, Qt::AlignCenter, "Press SPACE to start");
 }
 
 void Title::keyPressEvent(QKeyEvent *event) {
