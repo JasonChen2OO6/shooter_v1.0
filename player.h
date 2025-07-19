@@ -8,6 +8,8 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <cmath>
+#include <QSoundEffect>
+#include <QUrl>
 
 #include "config.h"
 #include "playerbullet.h"
@@ -15,7 +17,7 @@
 
 class Player {
 public:
-    Player();
+    Player(QObject *obj);
 
     void draw(QPainter &painter);
     void drawData(QPainter &painter);
@@ -31,12 +33,14 @@ public:
     int getAttack();
     int getBulletSize();
     int getRepelForce();
+    int getLevel();
 
     void addInterval();
     void addVelocity();
     void addAttack();
     void addBulletSize();
     void addRepelForce();
+    void addHealth(int point);
 
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
@@ -53,18 +57,29 @@ public:
     bool getHaveShield();
     void reset();
 
-    bool getCanSplash();
-    bool getCanBounce();
-    bool getCanRetard();
-    bool getCanTrace();
-    bool getCanPenetrate();
-    bool getLongerInvincible();
-    bool getHurtInvicible();
-    bool getAddHealthByDefeat();
-    bool getAddHealthByTime();
-    bool getAddShieldByHurt();
-    bool getAddShieldByTime();
-    bool getCanPassWall();
+    bool getCanSplash();            // 1
+    bool getCanBounce();            // 2
+    bool getCanRetard();            // 3
+    bool getCanPenetrate();         // 4
+    bool getLongerInvincible();     // 5
+    bool getHurtInvincible();       // 6
+    bool getAddHealthByDefeat();    // 7
+    bool getAddHealthByTime();      // 8
+    bool getAddShieldByHurt();      // 9
+    bool getAddShieldByTime();      // 10
+    bool getCanPassWall();          // 11
+
+    void setCanSplash();            // 1
+    void setCanBounce();            // 2
+    void setCanRetard();            // 3
+    void setCanPenetrate();         // 4
+    void setLongerInvincible();     // 5
+    void setHurtInvincible();       // 6
+    void setAddHealthByDefeat();    // 7
+    void setAddHealthByTime();      // 8
+    void setAddShieldByHurt();      // 9
+    void setAddShieldByTime();      // 10
+    void setCanPassWall();          // 11
 
 private:
     QPointF position;
@@ -96,7 +111,6 @@ private:
     bool canSplash;
     bool canBounce;
     bool canRetard;
-    bool canTrace;
     bool canPenetrate;
     bool longerInvincible;
     bool hurtInvicible;
@@ -105,6 +119,8 @@ private:
     bool addShieldByHurt;
     bool addShieldByTime;
     bool canPassWall;
+
+    QSoundEffect *shoot_effect;
 };
 
 #endif // PLAYER_H

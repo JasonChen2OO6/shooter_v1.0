@@ -45,23 +45,23 @@
 #define EENM01_H 3       // health
 #define EENM01_A 1       // attack
 #define EENM01_E 5       // experience
-#define EENM01_I 500     // interval
+#define EENM01_I 700     // interval
 #define EENM01_BV 2      // bullet velocity
 
 #define BOSS01_S 60
 #define BOSS01_M 50
 #define BOSS01_V 0.02
-#define BOSS01_H 1000
+#define BOSS01_H 300
 #define BOSS01_A 2
 #define BOSS01_E 100
-#define BOSS01_I 10
+#define BOSS01_I 15
 #define BOSS01_MI 500
 #define BOSS01_BV 1
 
 #define BOSS02_S 80
 #define BOSS02_M 1000
 #define BOSS02_V 0.02
-#define BOSS02_H 10000
+#define BOSS02_H 3000
 #define BOSS02_A 3
 #define BOSS02_E 114514
 #define BOSS02_I 5
@@ -71,12 +71,13 @@
 #define SENM_S 80
 #define SENM_M 1000
 #define SENM_V 0.02
-#define SENM_H 50
+#define SENM_H 100
 #define SENM_A 2
 #define SENM_E 0
 #define SENM_I 250
 #define SENM_MI 1000
 #define SENM_BV 1
+
 #define IVCB_TIME 100    //invincible time
 #define SPLSH_RG 150     // splash range
 #define MAX_BNC_TIME 4   // max bounce time
@@ -86,17 +87,17 @@
 
 
 
-const int levelUps[21] = {10, 20, 30, 40, 50, 70, 90, 110, 140, 170,
-                          200, 240, 280, 320, 380, 440, 500, 600, 800, 1000, 1000};
+const int levelUps[21] = {5, 10, 15, 20, 30, 40, 50, 60, 80, 100,
+                          130, 160, 200, 240, 280, 350, 400, 450, 500, 800, 1500};
 
-const int intervals[6] = {0, 100, 80, 60, 40, 20};
+const int intervals[11] = {0, 100, 85, 70, 60, 50, 40, 30, 20, 15, 10};
 
-const float velocities[6] = {0, 0.2, 0.3, 0.4, 0.5, 0.6};
+const float velocities[11] = {0, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65};
 
-const int attacks[6] = {0, 1, 2, 3, 4, 5};
+const int attacks[11] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
-const int bulletSizes[6] = {0, 10, 15, 20, 25, 30};
+const int bulletSizes[11] = {0, 10, 13, 16, 20, 23, 26, 30, 33, 36, 40};
 
-const int repelForces[6] = {0, 1000, 1500, 2000, 2500, 3000};
+const int repelForces[11] = {0, 1000, 1500, 2000, 2500, 3000, 3300, 3600, 3900, 4200, 4500};
 
 #endif // CONFIG_H

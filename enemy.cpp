@@ -352,6 +352,12 @@ void Boss02::draw(QPainter &painter) {
     scale = (1 - pow(1.0 * (life % moveInterval)/ moveInterval, 3));
     painter.drawEllipse(nextPosition, 100 * scale, 100 * scale);
     painter.drawEllipse(nextPosition, 150 * scale, 150 * scale);
+
+    pen = QPen(Qt::darkCyan);
+    pen.setWidth(5);
+    painter.setPen(pen);
+//    painter.drawArc(position.x() - size * 1.4, position.y() - size * 1.4, size * 2.8, size * 2.8, 90 * 16, (90 + 360.0 * health / BOSS01_H) * 16);
+    painter.drawLine(50, WIN_H - 50, (WIN_W - 100) * (1.0 * health / BOSS02_H), WIN_H - 50);
 }
 
 std::vector<EnemyBullet *> Boss02::shoot(QPointF playerPosition) {

@@ -4,17 +4,22 @@
 #include <QDebug>
 #include <QPainter>
 #include <QKeyEvent>
+#include <QSoundEffect>
+#include <QUrl>
 
 #include "config.h"
 
 class Over {
 public:
-    Over();
+    Over(QObject *obj);
 
     void draw(QPainter &painter);
 
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
+
+private:
+    QSoundEffect *button;
 };
 
 #endif // OVER_H
