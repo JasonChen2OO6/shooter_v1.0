@@ -51,7 +51,7 @@
 #define BOSS01_S 60
 #define BOSS01_M 50
 #define BOSS01_V 0.02
-#define BOSS01_H 1000
+#define BOSS01_H 300
 #define BOSS01_A 2
 #define BOSS01_E 100
 #define BOSS01_I 10

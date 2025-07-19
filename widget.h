@@ -7,6 +7,8 @@
 #include "pause.h"
 
 #include <QWidget>
+#include <QSoundEffect>
+#include <QUrl>
 
 namespace Ui {
 class Widget;
@@ -31,7 +33,7 @@ public:
     Title *title = nullptr;
     Game *game = nullptr;
     Over *over = nullptr;
-    Pause *pause = nullptr;
+
     static int status;  // 0 title 1 game(pause) 2 over
     static int levelUp;
     static int experience;
@@ -39,7 +41,6 @@ public:
 
 private:
     Ui::Widget *ui;
-
 };
 
 #endif // WIDGET_H

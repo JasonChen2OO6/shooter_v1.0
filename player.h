@@ -8,6 +8,8 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <cmath>
+#include <QSoundEffect>
+#include <QUrl>
 
 #include "config.h"
 #include "playerbullet.h"
@@ -15,7 +17,7 @@
 
 class Player {
 public:
-    Player();
+    Player(QObject *obj);
 
     void draw(QPainter &painter);
     void drawData(QPainter &painter);
@@ -117,6 +119,8 @@ private:
     bool addShieldByHurt;
     bool addShieldByTime;
     bool canPassWall;
+
+    QSoundEffect *shoot_effect;
 };
 
 #endif // PLAYER_H

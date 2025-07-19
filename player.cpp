@@ -3,7 +3,7 @@
 #include "widget.h"
 
 
-Player::Player() {
+Player::Player(QObject *obj) {
     position = *new QPointF(WIN_W / 2, WIN_H / 2);
     angle = 0;
 
@@ -45,6 +45,9 @@ Player::Player() {
     addShieldByHurt = false;
     addShieldByTime = false;
     canPassWall = false;
+
+    shoot_effect = new QSoundEffect(obj);
+    shoot_effect->setSource(QUrl::fromLocalFile(":/res/shoot.wav"));
 }
 
 void Player::draw(QPainter &painter) {
@@ -169,6 +172,7 @@ std::vector<PlayerBullet*> Player::shoot() {
             shootBulletArray.push_back(new PlayerBullet(position, angle, BLT_SPEED, attacks[attack], bulletSizes[bulletSize], 0));
         }
 
+        shoot_effect->play();
         lastShoot = 0;
     }
 

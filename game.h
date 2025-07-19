@@ -4,6 +4,9 @@
 #include <vector>
 #include <QKeyEvent>
 #include <QMouseEvent>
+#include <QSoundEffect>
+#include <QDir>
+#include <QUrl>
 
 #include "pause.h"
 #include "enemy.h"
@@ -14,7 +17,7 @@
 
 class Game {
 public:
-    Game();
+    Game(QObject *obj);
 
     void draw(QPainter &painter);
     void update();
@@ -62,6 +65,11 @@ private:
     bool checkCollision(PlayerBullet *playerBullet, Enemy *enemy);
     bool checkCollision(Player *player, EnemyBullet *enemyBullet);
 
+    QSoundEffect *button;
+    QSoundEffect *enemy_hurt;
+    QSoundEffect *player_hurt;
+    QSoundEffect *boss_warning;
+    QSoundEffect *player_die;
 };
 
 #endif // GAME_H

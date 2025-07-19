@@ -1,8 +1,9 @@
 #include "title.h"
 #include "widget.h"
 
-Title::Title() {
-
+Title::Title(QObject *obj) {
+    button = new QSoundEffect(obj);
+    button->setSource(QUrl::fromLocalFile(QDir::current().absoluteFilePath(":/res/button.wav")));
 }
 
 void Title::draw(QPainter &painter) {
@@ -18,6 +19,7 @@ void Title::keyPressEvent(QKeyEvent *event) {
     int keyCode = event->key();
     if (keyCode == Qt::Key_Space){
           qDebug() << keyCode;
+          button->play();
           Widget::status = 1;
     }
 }

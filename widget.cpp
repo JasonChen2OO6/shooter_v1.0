@@ -10,9 +10,9 @@ Widget::Widget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    title = new Title();
-    game = new Game();
-    over = new Over();
+    title = new Title(this);
+    game = new Game(this);
+    over = new Over(this);
 
     startTimer(10);
 
@@ -102,7 +102,7 @@ void Widget::mouseMoveEvent(QMouseEvent *event)
 
 void Widget::init() {
     delete game;
-    game = new Game();
+    game = new Game(this);
 }
 
 int Widget::status = 0;

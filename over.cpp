@@ -2,8 +2,9 @@
 #include "widget.h"
 #include "game.h"
 
-Over::Over() {
-
+Over::Over(QObject *obj) {
+    button = new QSoundEffect(obj);
+    button->setSource(QUrl::fromLocalFile(QDir::current().absoluteFilePath(":/res/button.wav")));
 }
 
 void Over::draw(QPainter &painter) {
@@ -20,6 +21,7 @@ void Over::keyPressEvent(QKeyEvent *event) {
     int keyCode = event->key();
     if (keyCode == Qt::Key_R){
           qDebug() << keyCode;
+          button->play();
           Widget::status = 0;
           Widget::levelUp = 0;
           Widget::experience = 0;

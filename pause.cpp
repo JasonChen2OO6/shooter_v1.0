@@ -1,12 +1,40 @@
 #include "pause.h"
 #include "widget.h"
 
-Pause::Pause(Player *_player) {
+Pause::Pause(Player *_player, QObject *obj) {
     player = _player;
     id1 = 0;
     id2 = 0;
     id3 = 0;
     pressCode = 0;
+
+    image1 = new QPixmap();
+    image1->load(":/res/1.png");
+    image2 = new QPixmap();
+    image2->load(":/res/2.png");
+    image3 = new QPixmap();
+    image3->load(":/res/3.png");
+    image4 = new QPixmap();
+    image4->load(":/res/4.png");
+    image5 = new QPixmap();
+    image5->load(":/res/5.png");
+    image6 = new QPixmap();
+    image6->load(":/res/6.png");
+    image7 = new QPixmap();
+    image7->load(":/res/7.png");
+    image8 = new QPixmap();
+    image8->load(":/res/8.png");
+    image9 = new QPixmap();
+    image9->load(":/res/9.png");
+    image10 = new QPixmap();
+    image10->load(":/res/10.png");
+    image11 = new QPixmap();
+    image11->load(":/res/11.png");
+    image12 = new QPixmap();
+    image12->load(":/res/12.png");
+
+    upgrade = new QSoundEffect(obj);
+    upgrade->setSource(QUrl::fromLocalFile(":/res/upgrade.wav"));
 }
 
 #define get(id) (id == 1 ? player->getInterval() :\
@@ -69,6 +97,7 @@ void Pause::draw(QPainter &painter) {
         if ((player->getLevel() - Widget::levelUp + 1) % 5 == 0) {
             painter.setFont(QFont("Arial", 6));
             printData2(WIN_W / 2 - 600, WIN_H / 2 + 325, 400, 50, painter, id1);
+            drawImage(WIN_W / 2 - 550, WIN_H / 2 - 100, 300, 300, painter, id1);
         } else {
             painter.setFont(QFont("Arial", 10));
             printData(WIN_W / 2 - 550, WIN_H / 2, 300, 100, painter, id1);
@@ -83,6 +112,7 @@ void Pause::draw(QPainter &painter) {
         if ((player->getLevel() - Widget::levelUp + 1) % 5 == 0) {
             painter.setFont(QFont("Arial", 6));
             printData2(WIN_W / 2 - 200, WIN_H / 2 + 325, 400, 50, painter, id2);
+            drawImage(WIN_W / 2 - 150, WIN_H / 2 - 100, 300, 300, painter, id2);
         } else {
             painter.setFont(QFont("Arial", 10));
             printData(WIN_W / 2 - 150, WIN_H / 2, 300, 100, painter, id2);
@@ -96,6 +126,7 @@ void Pause::draw(QPainter &painter) {
         if ((player->getLevel() - Widget::levelUp + 1) % 5 == 0) {
             painter.setFont(QFont("Arial", 6));
             printData2(WIN_W / 2 + 200, WIN_H / 2 + 325, 400, 50, painter, id3);
+            drawImage(WIN_W / 2 + 250, WIN_H / 2 - 100, 300, 300, painter, id3);
         } else {
             painter.setFont(QFont("Arial", 10));
             printData(WIN_W / 2 + 250, WIN_H / 2, 300, 100, painter, id3);
@@ -125,6 +156,7 @@ void Pause::keyReleaseEvent(QKeyEvent *event) {
         switch (event->key()) {
             case Qt::Key_1:
                 pressCode = 0;
+                upgrade->play();
                 if ((player->getLevel() - Widget::levelUp + 1) % 5 == 0) set2(id1);
                 else set(id1);
                 Widget::levelUp--;
@@ -134,6 +166,7 @@ void Pause::keyReleaseEvent(QKeyEvent *event) {
                 break;
             case Qt::Key_2:
                 pressCode = 0;
+                upgrade->play();
                 if ((player->getLevel() - Widget::levelUp + 1) % 5 == 0) set2(id2);
                 else set(id2);
                 Widget::levelUp--;
@@ -143,6 +176,7 @@ void Pause::keyReleaseEvent(QKeyEvent *event) {
                 break;
             case Qt::Key_3:
                 pressCode = 0;
+                upgrade->play();
                 if ((player->getLevel() - Widget::levelUp + 1) % 5 == 0) set2(id3);
                 else set(id3);
                 Widget::levelUp--;
@@ -235,10 +269,51 @@ void Pause::printData2(int x, int y, int w, int h, QPainter &painter, int id)
             painter.drawText(x, y, w, h, Qt::AlignCenter, "Obtain a shield every 20 sec");
             break;
         case 11:
-            painter.drawText(x, y, w, h, Qt::AlignCenter, "Bullets can go through walls");
+            painter.drawText(x, y, w, h, Qt::AlignCenter, "Can go through walls");
             break;
         case 12:
             painter.drawText(x, y, w, h, Qt::AlignCenter, "Add 10 HP");
+            break;
+    }
+}
+
+void Pause::drawImage(int x, int y, int w, int h, QPainter &painter, int id) {
+    switch (id) {
+        case 1:
+            painter.drawPixmap(x, y, w, h, *image1);
+            break;
+        case 2:
+            painter.drawPixmap(x, y, w, h, *image2);
+            break;
+        case 3:
+            painter.drawPixmap(x, y, w, h, *image3);
+            break;
+        case 4:
+            painter.drawPixmap(x, y, w, h, *image4);
+            break;
+        case 5:
+            painter.drawPixmap(x, y, w, h, *image5);
+            break;
+        case 6:
+            painter.drawPixmap(x, y, w, h, *image6);
+            break;
+        case 7:
+            painter.drawPixmap(x, y, w, h, *image7);
+            break;
+        case 8:
+            painter.drawPixmap(x, y, w, h, *image8);
+            break;
+        case 9:
+            painter.drawPixmap(x, y, w, h, *image9);
+            break;
+        case 10:
+            painter.drawPixmap(x, y, w, h, *image10);
+            break;
+        case 11:
+            painter.drawPixmap(x, y, w, h, *image11);
+            break;
+        case 12:
+            painter.drawPixmap(x, y, w, h, *image12);
             break;
     }
 }
