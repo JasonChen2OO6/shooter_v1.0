@@ -5,6 +5,7 @@
 #include <QPainter>
 #include <QKeyEvent>
 #include <QSoundEffect>
+#include <QDir>
 #include <QUrl>
 
 #include "config.h"

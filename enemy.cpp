@@ -45,6 +45,7 @@ int Enemy::getAttack() {
 void Enemy::repel(QPointF playerPosition, int repelForce) {
     QPointF vec = position - playerPosition;
     float r2 = (vec.x() * vec.x() + vec.y() * vec.y());
+    r2 = std::max(r2, (float)0.01);
     dx += ENM_RPL * vec.x() / r2 / mass;
     dy += ENM_RPL * vec.y() / r2 / mass;
     dx += repelForce * vec.x() / r2 / mass;
@@ -56,6 +57,7 @@ int Enemy::getSize() {
 void Enemy::repulse(QPointF enemyPosition) {
     QPointF vec = position - enemyPosition;
     float r2 = (vec.x() * vec.x() + vec.y() * vec.y());
+    r2 = std::max(r2, (float)0.01);
     dx += ENM_RPS * vec.x() / r2 / mass;
     dy += ENM_RPS * vec.y() / r2 / mass;
 }
@@ -248,7 +250,7 @@ void Boss01::draw(QPainter &painter) {
     pen.setWidth(5);
     painter.setPen(pen);
 //    painter.drawArc(position.x() - size * 1.4, position.y() - size * 1.4, size * 2.8, size * 2.8, 90 * 16, (90 + 360.0 * health / BOSS01_H) * 16);
-    painter.drawLine(50, WIN_H - 50, (WIN_W - 100) * (1.0 * health / BOSS01_H), WIN_H - 50);
+    painter.drawLine(50, WIN_H - 50, 50 + (WIN_W - 100) * (1.0 * health / BOSS01_H), WIN_H - 50);
 }
 
 void Boss01::update(QPointF playerPosition) {
@@ -352,6 +354,12 @@ void Boss02::draw(QPainter &painter) {
     scale = (1 - pow(1.0 * (life % moveInterval)/ moveInterval, 3));
     painter.drawEllipse(nextPosition, 100 * scale, 100 * scale);
     painter.drawEllipse(nextPosition, 150 * scale, 150 * scale);
+
+    pen = QPen(Qt::darkCyan);
+    pen.setWidth(5);
+    painter.setPen(pen);
+//    painter.drawArc(position.x() - size * 1.4, position.y() - size * 1.4, size * 2.8, size * 2.8, 90 * 16, (90 + 360.0 * health / BOSS01_H) * 16);
+    painter.drawLine(50, WIN_H - 50, 50 + (WIN_W - 100) * (1.0 * health / BOSS02_H), WIN_H - 50);
 }
 
 std::vector<EnemyBullet *> Boss02::shoot(QPointF playerPosition) {

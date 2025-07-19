@@ -80,8 +80,8 @@ void Player::draw(QPainter &painter) {
 }
 
 void Player::drawData(QPainter &painter) {
-    painter.setPen(Qt::blue);
-    painter.setFont(QFont("Arial", 10));
+    painter.setPen(Qt::darkBlue);
+    painter.setFont(QFont("Arial", 30));
 
     painter.drawText(0, 0, WIN_W, 40, Qt::AlignLeft, "HP: ");
     for (int i = 0; i < health; i++) {
@@ -97,7 +97,7 @@ void Player::drawData(QPainter &painter) {
     painter.drawText(0, 280, WIN_W, 40, Qt::AlignLeft, "RPL_FRC: " + QString::number(repelForce));
 
     if (Widget::levelUp > 0) {
-        painter.drawText(0, 0, WIN_W, 40, Qt::AlignRight, "LEVEL UP!");
+        painter.drawText(0, 0, WIN_W, 100, Qt::AlignRight, "LEVEL UP!");
     }
 }
 
@@ -108,7 +108,7 @@ void Player::update() {
 
     angle = atan2(float(mousePosition.y() - position.y()), float(mousePosition.x() - position.x()));
 
-    if (experience >= levelUps[level] && level < 10) {
+    if (experience >= levelUps[level] && level < 20) {
         level++;
         Widget::levelUp++;
     }
@@ -145,8 +145,8 @@ void Player::update() {
 
     lastShoot++;
 
-    if (addHealthByDefeat && defeatEnemyCount >= 50) {
-        defeatEnemyCount -= 50;
+    if (addHealthByDefeat && defeatEnemyCount >= 30) {
+        defeatEnemyCount -= 30;
         ++health;
     }
 

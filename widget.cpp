@@ -106,5 +106,5 @@ void Widget::init() {
 }
 
 int Widget::status = 0;
-int Widget::levelUp = 10;
+int Widget::levelUp = 0;
 int Widget::experience = 0;

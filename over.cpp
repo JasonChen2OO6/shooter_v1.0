@@ -8,11 +8,11 @@ Over::Over(QObject *obj) {
 }
 
 void Over::draw(QPainter &painter) {
-    painter.setPen(Qt::blue);
-    painter.setFont(QFont("Arial", 20));
+    painter.setPen(Qt::darkBlue);
+    painter.setFont(QFont("Arial", 60));
     painter.drawText(WIN_W / 2 - 400, WIN_H / 2 - 200, 800, 100, Qt::AlignCenter, "Game over");
 
-    painter.setFont(QFont("Arial", 10));
+    painter.setFont(QFont("Arial", 30));
     painter.drawText(WIN_W / 2 - 400, WIN_H / 2 - 100, 800, 50, Qt::AlignCenter, "EXP: " + QString::number(Widget::experience));
     painter.drawText(WIN_W / 2 - 400, WIN_H / 2 - 50, 800, 50, Qt::AlignCenter, "Press R to restart");
 }

@@ -72,11 +72,11 @@ Pause::Pause(Player *_player, QObject *obj) {
                 id == 11 ? player->setCanPassWall() : player->addHealth(10))
 
 void Pause::draw(QPainter &painter) {
-    painter.setPen(Qt::blue);
-    painter.setFont(QFont("Arial", 20));
+    painter.setPen(Qt::darkBlue);
+    painter.setFont(QFont("Arial", 60));
     painter.drawText(WIN_W / 2 - 400, WIN_H / 2 - 400, 800, 100, Qt::AlignCenter, "Pause");
 
-    painter.setFont(QFont("Arial", 10));
+    painter.setFont(QFont("Arial", 30));
     painter.drawText(WIN_W / 2 - 400, WIN_H / 2 - 300, 800, 50, Qt::AlignCenter, "Press ESC to continue");
     painter.drawText(WIN_W / 2 - 400, WIN_H / 2 - 250, 800, 50, Qt::AlignCenter, "Press R to restart");
 
@@ -86,20 +86,20 @@ void Pause::draw(QPainter &painter) {
         if (id1 == 0) {
             getId();
         }
-        painter.setFont(QFont("Arial", 10));
+        painter.setFont(QFont("Arial", 30));
         painter.drawText(WIN_W / 2 - 400, WIN_H / 2 - 200, 800, 50, Qt::AlignCenter, "Select the stat you wish to boost:");
 
         if (pressCode == 1) painter.setPen(Qt::red);
         else painter.setPen(Qt::blue);
         painter.drawRect(WIN_W / 2 - 550, WIN_H / 2 - 100, 300, 300);
-        painter.setFont(QFont("Arial", 10));
+        painter.setFont(QFont("Arial", 30));
         painter.drawText(WIN_W / 2 - 500, WIN_H / 2 + 250, 200, 50, Qt::AlignCenter, "[1]");
         if ((player->getLevel() - Widget::levelUp + 1) % 5 == 0) {
-            painter.setFont(QFont("Arial", 6));
+            painter.setFont(QFont("Arial", 18));
             printData2(WIN_W / 2 - 600, WIN_H / 2 + 325, 400, 50, painter, id1);
             drawImage(WIN_W / 2 - 550, WIN_H / 2 - 100, 300, 300, painter, id1);
         } else {
-            painter.setFont(QFont("Arial", 10));
+            painter.setFont(QFont("Arial", 30));
             printData(WIN_W / 2 - 550, WIN_H / 2, 300, 100, painter, id1);
         }
 
@@ -107,28 +107,28 @@ void Pause::draw(QPainter &painter) {
         if (pressCode == 2) painter.setPen(Qt::red);
         else painter.setPen(Qt::blue);
         painter.drawRect(WIN_W / 2 - 150, WIN_H / 2 - 100, 300, 300);
-        painter.setFont(QFont("Arial", 10));
+        painter.setFont(QFont("Arial", 30));
         painter.drawText(WIN_W / 2 - 100, WIN_H / 2 + 250, 200, 50, Qt::AlignCenter, "[2]");
         if ((player->getLevel() - Widget::levelUp + 1) % 5 == 0) {
-            painter.setFont(QFont("Arial", 6));
+            painter.setFont(QFont("Arial", 18));
             printData2(WIN_W / 2 - 200, WIN_H / 2 + 325, 400, 50, painter, id2);
             drawImage(WIN_W / 2 - 150, WIN_H / 2 - 100, 300, 300, painter, id2);
         } else {
-            painter.setFont(QFont("Arial", 10));
+            painter.setFont(QFont("Arial", 30));
             printData(WIN_W / 2 - 150, WIN_H / 2, 300, 100, painter, id2);
         }
 
         if (pressCode == 3) painter.setPen(Qt::red);
         else painter.setPen(Qt::blue);
         painter.drawRect(WIN_W / 2 + 250, WIN_H / 2 - 100, 300, 300);
-        painter.setFont(QFont("Arial", 10));
+        painter.setFont(QFont("Arial", 30));
         painter.drawText(WIN_W / 2 + 300, WIN_H / 2 + 250, 200, 50, Qt::AlignCenter, "[3]");
         if ((player->getLevel() - Widget::levelUp + 1) % 5 == 0) {
-            painter.setFont(QFont("Arial", 6));
+            painter.setFont(QFont("Arial", 18));
             printData2(WIN_W / 2 + 200, WIN_H / 2 + 325, 400, 50, painter, id3);
             drawImage(WIN_W / 2 + 250, WIN_H / 2 - 100, 300, 300, painter, id3);
         } else {
-            painter.setFont(QFont("Arial", 10));
+            painter.setFont(QFont("Arial", 30));
             printData(WIN_W / 2 + 250, WIN_H / 2, 300, 100, painter, id3);
         }
     }
@@ -207,7 +207,7 @@ void Pause::getId()
         id3 = rand() % 5 + 1;
 
         while (id1 == id2 || id1 == id3 || id2 == id3 ||
-               get(id1) >= 5 || get(id2) >= 5 || get(id3) >= 5) {
+               get(id1) >= 10 || get(id2) >= 10 || get(id3) >= 10) {
                 id1 = rand() % 5 + 1;
                 id2 = rand() % 5 + 1;
                 id3 = rand() % 5 + 1;
@@ -257,7 +257,7 @@ void Pause::printData2(int x, int y, int w, int h, QPainter &painter, int id)
             painter.drawText(x, y, w, h, Qt::AlignCenter, "Hurt enemies when invincible");
             break;
         case 7:
-            painter.drawText(x, y, w, h, Qt::AlignCenter, "Add 1 HP when defeat 50 enemies");
+            painter.drawText(x, y, w, h, Qt::AlignCenter, "Add 1 HP when defeat 30 enemies");
             break;
         case 8:
             painter.drawText(x, y, w, h, Qt::AlignCenter, "Add 1 HP every 30 sec");
