@@ -45,6 +45,7 @@ int Enemy::getAttack() {
 void Enemy::repel(QPointF playerPosition, int repelForce) {
     QPointF vec = position - playerPosition;
     float r2 = (vec.x() * vec.x() + vec.y() * vec.y());
+    r2 = std::max(r2, (float)0.01);
     dx += ENM_RPL * vec.x() / r2 / mass;
     dy += ENM_RPL * vec.y() / r2 / mass;
     dx += repelForce * vec.x() / r2 / mass;
@@ -56,6 +57,7 @@ int Enemy::getSize() {
 void Enemy::repulse(QPointF enemyPosition) {
     QPointF vec = position - enemyPosition;
     float r2 = (vec.x() * vec.x() + vec.y() * vec.y());
+    r2 = std::max(r2, (float)0.01);
     dx += ENM_RPS * vec.x() / r2 / mass;
     dy += ENM_RPS * vec.y() / r2 / mass;
 }
