@@ -63,6 +63,8 @@ void Game::update() {
     if (status == 0) {
         ++timer;
 
+        qDebug() << "EnemyArray Size:" << enemyArray.size();
+
         playerShoot();
 
         generateEnemy();
@@ -184,6 +186,7 @@ void Game::generateEnemy() {
         enemyArray.push_back(new Boss01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
     }
     if (timer < 3 * 60 * 100 && timer % (100 - std::min(std::max(timer - 60 * 100, 0) / 10, 60)) == 0) {
+//        if (timer < 3 * 60 * 100 && timer % 100 == 0) {
         float angle = (rand() % 360) / 180.0 * M_PI;
         enemyArray.push_back(new Enemy01(QPointF(player->getPosition().x() + WIN_W * cos(angle), player->getPosition().y() + WIN_W * sin(angle))));
     }

@@ -78,6 +78,7 @@ Enemy01::Enemy01(QPointF _position) :
 }
 
 void Enemy01::draw(QPainter &painter) {
+    qDebug() << position.x() <<" "<< position.y();
     painter.setPen(Qt::red);
     painter.drawEllipse(position.x() - size / 2, position.y() - size / 2, size, size);
 }
@@ -248,7 +249,7 @@ void Boss01::draw(QPainter &painter) {
     pen.setWidth(5);
     painter.setPen(pen);
 //    painter.drawArc(position.x() - size * 1.4, position.y() - size * 1.4, size * 2.8, size * 2.8, 90 * 16, (90 + 360.0 * health / BOSS01_H) * 16);
-    painter.drawLine(50, WIN_H - 50, (WIN_W - 100) * (1.0 * health / BOSS01_H), WIN_H - 50);
+    painter.drawLine(50, WIN_H - 50, 50 + (WIN_W - 100) * (1.0 * health / BOSS01_H), WIN_H - 50);
 }
 
 void Boss01::update(QPointF playerPosition) {
@@ -357,7 +358,7 @@ void Boss02::draw(QPainter &painter) {
     pen.setWidth(5);
     painter.setPen(pen);
 //    painter.drawArc(position.x() - size * 1.4, position.y() - size * 1.4, size * 2.8, size * 2.8, 90 * 16, (90 + 360.0 * health / BOSS01_H) * 16);
-    painter.drawLine(50, WIN_H - 50, (WIN_W - 100) * (1.0 * health / BOSS02_H), WIN_H - 50);
+    painter.drawLine(50, WIN_H - 50, 50 + (WIN_W - 100) * (1.0 * health / BOSS02_H), WIN_H - 50);
 }
 
 std::vector<EnemyBullet *> Boss02::shoot(QPointF playerPosition) {
