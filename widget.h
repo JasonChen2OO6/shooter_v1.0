@@ -31,7 +31,6 @@ public:
     Title *title = nullptr;
     Game *game = nullptr;
     Over *over = nullptr;
-    Pause *pause = nullptr;
     static int status;  // 0 title 1 game(pause) 2 over
     static int levelUp;
     static int experience;
