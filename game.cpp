@@ -231,8 +231,8 @@ void Game::checkCollision() {
         for (auto enemy : enemyArray) {
             if (enemy->isAlive() && checkCollision(*it, enemy)) {
                 flag = true;
-                enemy_hurt->play();
                 if (!(*it)->checkEnemy(enemy)) {
+                    enemy_hurt->play();
                     if (player->getCanSplash()) {
                         for (auto _enemy : enemyArray) {
                             if (dist(_enemy, enemy) < SPLSH_RG + enemy->getSize()) {
@@ -270,7 +270,6 @@ void Game::checkCollision() {
                 if (player->getAddShieldByHurt()) player->addShield();
             }
             if (!player->isInvincible() || player->getHurtInvincible()) {
-                enemy_hurt->play();
                 enemy->hurt(player->getAttack(), false);
             }
         }
